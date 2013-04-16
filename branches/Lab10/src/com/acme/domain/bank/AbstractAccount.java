@@ -22,10 +22,10 @@ public abstract class AbstractAccount implements Account {
 		balance += amount;
 	}
 
-	public void withdraw(final double amount) {
-		if (amount >= balance) {
-			balance -= amount;
-		}
+	public boolean withdraw(final double amount) {
+		if (amount > balance) return false;
+		balance -= amount;
+		return true;
 	}
 
 }
