@@ -7,8 +7,9 @@ public class CheckingAccount extends AbstractAccount {
 		super(amount);
 		this.overdraft = overdraft;
 	}
-
-	private boolean assertPositive(){
+	
+	@Override
+	protected boolean assertPositive(){
 		return overdraft > 0 && getBalance() > 0;
 	}
 	

@@ -25,7 +25,12 @@ public abstract class AbstractAccount implements Account {
 	public boolean withdraw(final double amount) {
 		if (amount > balance) return false;
 		balance -= amount;
+		assert assertPositive();
 		return true;
+	}
+	
+	protected boolean assertPositive(){
+		return getBalance() > 0;
 	}
 
 }
