@@ -1,5 +1,7 @@
 package com.acme.exceptions;
-import com.acme.domain.client.Client;
+
+import com.acme.domain.bank.Client;
+
 
 public class ClientExistsException extends BankException {
 

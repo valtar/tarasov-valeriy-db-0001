@@ -33,5 +33,8 @@ public class SavingAccount extends AbstractAccount {
 		return AccountType.SAVING;
 	}
 
-	//TODO: implement toString method which details this account information
+	@Override
+	public String toString() {
+		return "Saving account with amount: " + getBalance();
+	}
 }

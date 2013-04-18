@@ -14,31 +14,6 @@ public class CheckingAccount extends AbstractAccount {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		long temp;
-		temp = Double.doubleToLongBits(overdraft);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CheckingAccount other = (CheckingAccount) obj;
-		if (Double.doubleToLongBits(overdraft) != Double
-				.doubleToLongBits(other.overdraft))
-			return false;
-		return true;
-	}
-
-	@Override
 	public void withdraw(final double amount) throws NoEnoughFundsException {
 		if (amount < 0) {
 			throw new IllegalArgumentException("Amount can not be negative");
@@ -68,6 +43,7 @@ public class CheckingAccount extends AbstractAccount {
 			this.balance = this.balance - amount;
 		}
 
+
 	}
 
 	@Override
@@ -80,12 +56,11 @@ public class CheckingAccount extends AbstractAccount {
 
 	}
 
-	// TODO: implement toString method which details this account information
-
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString() + ", overdraft " + overdraft;
+		return "Checking account with " + overdraft + "$ overdraft. Amount: "
+				+ getBalance() + "$";
+
 	}
 
 	public AccountType getAccountType() {

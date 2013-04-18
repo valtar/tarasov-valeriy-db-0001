@@ -1,4 +1,4 @@
-package com.acme.domain.client;
+package com.acme.domain.bank;
 
 public enum Gender {
 	MALE("Mr."), FEMALE("Ms.");

@@ -11,11 +11,10 @@ public interface Account {
 	int getAccountNumber();
 
 	AccountType getAccountType();
-	
+
 	boolean isOpened();
 
 	double getBalance();
 
 	long decimalValue();
-	
 }
