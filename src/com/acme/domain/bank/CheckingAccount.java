@@ -9,10 +9,12 @@ public class CheckingAccount extends AbstractAccount {
 	}
 
 	@Override
-	public void withdraw(final double amount) {
+	public boolean withdraw(final double amount) {
 		if (amount <= getBalance() + overdraft) {
 			setBalance(getBalance() - amount);
+			return true;
 		}
+		return false;
 	}
 
 	@Override

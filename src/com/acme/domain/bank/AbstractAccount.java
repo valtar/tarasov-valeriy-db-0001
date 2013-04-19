@@ -24,10 +24,12 @@ public abstract class AbstractAccount implements Account {
 		}
 	}
 
-	public void withdraw(final double amount) {
+	public boolean withdraw(final double amount) {
 		if (amount > 0 && balance >= amount) {
 			balance -= amount;
+			return true;
 		}
+		return false;
 	}
 
 	public double maximumAmountToWithdraw() {
