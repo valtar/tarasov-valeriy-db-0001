@@ -2,13 +2,8 @@ package com.acme.task1;
 
 public class Calculator {
 	public static void main(String[] args) {
-		// TODO: analyze number of arguments
 		if (args.length != 3) {
 			System.out.println("illegal number of arguments");
-			return;
-		}
-		if (args[1].length() > 3 || args[1].charAt(0) != '*') {
-			System.out.println("illegal operand: " + args[1]);
 			return;
 		}
 
@@ -16,7 +11,6 @@ public class Calculator {
 		double operand2 = 0.0D;
 		char operation = '\u0000';
 
-		// TODO: get arguments
 		try {
 			operand1 = Double.parseDouble(args[0]);
 			operand2 = Double.parseDouble(args[2]);
@@ -31,7 +25,6 @@ public class Calculator {
 			return;
 		}
 
-		// TODO: analyze operation and make calculations
 		double result = 0;
 		switch (operation) {
 		case '+':
@@ -51,9 +44,7 @@ public class Calculator {
 			return;
 		}
 
-		// TODO: print result at console like:
 		System.out.println(operand1 + " " + operation + " " + operand2 + " = "
 				+ result);
-
 	}
 }

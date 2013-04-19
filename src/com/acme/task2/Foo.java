@@ -1,16 +1,17 @@
 package com.acme.task2;
 
 public class Foo {
-	static long iteration = 0L;
+	@SuppressWarnings("unused")
+	private byte array[] = new byte[1024];
+	private int iteration = 0;
 
-	public Foo() {
+	public Foo(int iteration) {
 		super();
-		iteration++;
+		this.iteration = iteration;
 	}
 
 	@Override
 	protected void finalize() throws Throwable {
-		// TODO: print to console that finalize() was called
 		System.out.println("finalize() was called in iteration " + iteration);
 		super.finalize();
 	}
