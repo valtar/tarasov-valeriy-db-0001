@@ -10,18 +10,14 @@ public class CheckingAccount extends AbstractAccount {
 
 	@Override
 	public void withdraw(final double amount) {
-		if (amount > getBalance()) {
-			setBalance(0);
-			overdraft -= amount - getBalance();
-		} else {
+		if (amount <= getBalance() + overdraft) {
 			setBalance(getBalance() - amount);
 		}
-
 	}
 
 	@Override
 	public double maximumAmountToWithdraw() {
-		return getBalance() + overdraft;
+		return super.maximumAmountToWithdraw() + overdraft;
 	}
 
 }

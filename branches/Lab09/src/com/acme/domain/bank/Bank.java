@@ -6,8 +6,8 @@ public class Bank {
 	private int clientsCount = 0;
 
 	public Client[] getClients() {
-		Client[] another = new Client[clients.length];
-		for (int i = 0; i < clients.length; i++) {
+		Client[] another = new Client[clientsCount];
+		for (int i = 0; i < clientsCount; i++) {
 			another[i] = clients[i];
 		}
 		return another;
