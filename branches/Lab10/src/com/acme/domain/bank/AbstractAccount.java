@@ -14,23 +14,28 @@ public abstract class AbstractAccount implements Account {
 		return balance;
 	}
 
-	public void setBalance(final double balance) {
+	protected void setBalance(final double balance) {
 		this.balance = balance;
 	}
 
-	public void deposit(final double amount) {
-		balance += amount;
+	public boolean deposit(final double amount) {
+		if (amount > 0) {
+			balance += amount;
+			return true;
+		}
+		return false;
 	}
 
 	public boolean withdraw(final double amount) {
-		if (amount > balance) return false;
-		balance -= amount;
-		assert assertPositive();
-		return true;
+		if (amount > 0 && balance >= amount) {
+			balance -= amount;
+			return true;
+		}
+		return false;
 	}
-	
-	protected boolean assertPositive(){
-		return getBalance() > 0;
+
+	public double maximumAmountToWithdraw() {
+		return getBalance();
 	}
 
 }
