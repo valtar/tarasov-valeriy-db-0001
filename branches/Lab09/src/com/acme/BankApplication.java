@@ -35,6 +35,14 @@ public class BankApplication {
 
 		System.out.println(c1.getAccount().maximumAmountToWithdraw());
 		System.out.println(c3.getAccount().maximumAmountToWithdraw());
+		System.out.println();
+		
+		System.out.println( c3.getAccount().withdraw(1000) );
+		System.out.println( c3.getAccount().withdraw(100) );
+		System.out.println( c1.getAccount().withdraw(1) );
+		System.out.println();
+		
+		ba.printBalance();
 
 	}
 
