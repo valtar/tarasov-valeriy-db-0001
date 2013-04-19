@@ -1,5 +1,7 @@
 package com.acme.domain.account;
 
+import com.acme.exceptions.NotEnoughFundsException;
+
 
 public class SavingAccount extends AbstractAccount {
 
@@ -10,20 +12,20 @@ public class SavingAccount extends AbstractAccount {
 	@Override
 	public void deposit(final double amount) throws IllegalArgumentException {
 		if (amount < 0) {
-			//TODO: throw an exception is applicable
+			throw new IllegalArgumentException("Negative amount to deposit");	
 		}
 		this.balance += amount;
 	}
 
 	@Override
-	public void withdraw(final double amount) {
+	public void withdraw(final double amount) throws NotEnoughFundsException, IllegalArgumentException {
 		if (amount < 0) {
-			//TODO: throw an exception is applicable
+			throw new IllegalArgumentException("Negative amount to withdraw");
 		}
 		if (this.balance - amount >= 0) {
 			this.balance -= amount;
 		} else {
-			//TODO: throw an exception is applicable			
+			throw new NotEnoughFundsException(amount);
 		}
 
 	}

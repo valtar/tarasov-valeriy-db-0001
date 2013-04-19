@@ -3,13 +3,10 @@ package com.acme.exceptions;
 public class OverDraftLimitExceededException extends NotEnoughFundsException {
 	private double maxAmount;
 	private double overdraft;
-	
-	public OverDraftLimitExceededException(double d){
-		super(d);
-	}
-	
-	public OverDraftLimitExceededException(double d, double maxAmount, double overdraft){
-		super(d);
+
+	public OverDraftLimitExceededException(double amount, double maxAmount,
+			double overdraft) {
+		super(amount);
 		this.maxAmount = maxAmount;
 		this.overdraft = overdraft;
 	}

@@ -1,7 +1,6 @@
 package com.acme.domain.account;
 
-import com.acme.exceptions.OverDraftLimitExceededException;
-
+import com.acme.exceptions.NotEnoughFundsException;
 
 public abstract class AbstractAccount implements Account {
 
@@ -30,9 +29,11 @@ public abstract class AbstractAccount implements Account {
 	}
 
 	//
-	public abstract void deposit(final double amount);
+	public abstract void deposit(final double amount)
+			throws NotEnoughFundsException, IllegalArgumentException;
 
-	public abstract void withdraw(final double amount) throws OverDraftLimitExceededException;
+	public abstract void withdraw(final double amount)
+			throws NotEnoughFundsException, IllegalArgumentException;
 
 	public void setState(final AccountState state) {
 		this.state = state;
@@ -41,7 +42,6 @@ public abstract class AbstractAccount implements Account {
 	public AccountState getState() {
 		return state;
 	}
-
 
 	public boolean isOpened() {
 		return state == AccountState.OPENED;

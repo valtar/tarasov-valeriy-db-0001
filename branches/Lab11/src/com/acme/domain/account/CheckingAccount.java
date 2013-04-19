@@ -2,7 +2,6 @@ package com.acme.domain.account;
 
 import com.acme.exceptions.OverDraftLimitExceededException;
 
-
 public class CheckingAccount extends AbstractAccount {
 
 	private double overdraft;
@@ -13,37 +12,19 @@ public class CheckingAccount extends AbstractAccount {
 		this.overdraft = overdraft;
 	}
 
-	@Override
-	public void withdraw(final double amount) throws OverDraftLimitExceededException  {
+	public void withdraw(final double amount)
+			throws OverDraftLimitExceededException, IllegalArgumentException {
 		if (amount < 0) {
-			//TODO: Have a look at the xception throwing
-			throw new IllegalArgumentException("Amount can not be negative");
-		}
-		if (this.balance - amount >= -overdraft) {
-			this.balance -= amount;
-		} else {
-			//TODO: throw an exception is applicable
+			throw new IllegalArgumentException("Negative amount to withdraw");
 		}
 
-		if (this.balance < amount) {
-			// Not enough balance to cover the amount requested to withdraw
-			// Check if there is enough in the overdraft protection (if any)
-			double overdraftNeeded = amount - this.balance;
-			if (overdraft < overdraftNeeded) {
-				//TODO: throw an exception is applicable. Ship an information how much money can we withdrawn within the exception  
-//				throw new OverDraftLimitExceededException(?,balance + overdraft,overdraft);
-			} else {
-				// Yes, there is overdraft protection and enough to cover the
-				// amount
-				this.balance = 0.0;
-				overdraft -= overdraftNeeded;
-			}
-		} else {
-			// Yes, there is enough balance to cover the amount
-			// Proceed as usual
-			this.balance = this.balance - amount;
+		if (amount <= getBalance() + overdraft) {
+			super.balance = super.balance - amount;
+			return;
 		}
 
+		throw new OverDraftLimitExceededException(amount, balance + overdraft,
+				overdraft);
 
 	}
 
@@ -52,11 +33,10 @@ public class CheckingAccount extends AbstractAccount {
 		if (amount > 0) {
 			this.balance += amount;
 		} else {
-			//TODO: throw an exception is applicable
+			throw new IllegalArgumentException("Negative amount to deposit");
 		}
 
 	}
-
 
 	public AccountType getAccountType() {
 		return AccountType.CHECKING;
