@@ -18,10 +18,12 @@ public abstract class AbstractAccount implements Account {
 		this.balance = balance;
 	}
 
-	public void deposit(final double amount) {
+	public boolean deposit(final double amount) {
 		if (amount > 0) {
 			balance += amount;
+			return true;
 		}
+		return false;
 	}
 
 	public boolean withdraw(final double amount) {
