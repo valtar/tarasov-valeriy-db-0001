@@ -48,8 +48,6 @@ public class Client implements Serializable {
 		accounts.add(account);
 	}
 
-	// TODO: implement toString method which outputs infor for this client
-
 	public List<Account> getAccountsList() {
 		return Collections.unmodifiableList(accounts);
 	}
@@ -105,6 +103,4 @@ public class Client implements Serializable {
 		return sb.toString();
 	}
 
-	// TODO: implement hashCode() and equals() methods which will be used in the
-	// following examples (collections)
 }
