@@ -1,9 +1,9 @@
 package com.acme.exceptions;
 
-public class NotEnoughFundsException extends BankException{
+public class NotEnoughFundsException extends BankException {
 	private double amount;
 
-	public double getMaxAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
