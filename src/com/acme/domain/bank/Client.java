@@ -11,12 +11,6 @@ public class Client {
 		name = aName;
 	}
 
-	public static void main(String[] args) {
-		Client c = new Client(new SavingAccount(Math.random()), Gender.FEMALE,
-				"Anna");
-		c.getClientSalutation();
-	}
-
 	public Account getAccount() {
 		return account;
 	}
@@ -28,5 +22,12 @@ public class Client {
 	public String getStringClientSalutation() {
 		return gender + " " + name;
 	}
+
+	@Override
+	public String toString() {
+		return getStringClientSalutation();
+	}
+	
+	
 
 }

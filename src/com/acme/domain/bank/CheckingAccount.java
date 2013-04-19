@@ -7,33 +7,21 @@ public class CheckingAccount extends AbstractAccount {
 		super(amount);
 		this.overdraft = overdraft;
 	}
-	
-	@Override
-	protected boolean assertPositive(){
-		return overdraft > 0 && getBalance() > 0;
-	}
-	
+
 	@Override
 	public boolean withdraw(final double amount) {
-		if(amount + overdraft < amount){
-			assert assertPositive();
-			return false;
-		}
-		
-		if (amount > getBalance()) {
-			setBalance(0);
-			overdraft -= amount - getBalance();
-		} else {
+		if (amount <= getBalance() + overdraft) {
 			setBalance(getBalance() - amount);
+			assert getBalance() + overdraft >= 0;
+			return true;
 		}
-		assert assertPositive();
-		return true;
-
+		assert getBalance() + overdraft >= 0;
+		return false;
 	}
 
 	@Override
 	public double maximumAmountToWithdraw() {
-		return getBalance() + overdraft;
+		return super.maximumAmountToWithdraw() + overdraft;
 	}
 
 }

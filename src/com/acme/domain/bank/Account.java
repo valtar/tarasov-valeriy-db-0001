@@ -1,7 +1,7 @@
 package com.acme.domain.bank;
 
 public interface Account {
-	public abstract void deposit(double amount);
+	public abstract boolean deposit(double amount);
 
 	public abstract boolean withdraw(double amount);
 

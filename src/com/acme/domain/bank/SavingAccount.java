@@ -6,9 +6,4 @@ public class SavingAccount extends AbstractAccount {
 		super(amount);
 	}
 
-	@Override
-	public double maximumAmountToWithdraw() {
-		return getBalance();
-	}
-
 }
