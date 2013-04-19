@@ -2,6 +2,15 @@ package com.acme.domain.bank;
 
 public class Client {
 	private Account account = null;
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	private Gender gender = null;
 	private String name = null;
 
