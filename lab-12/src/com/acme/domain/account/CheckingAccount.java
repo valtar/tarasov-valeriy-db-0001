@@ -80,11 +80,8 @@ public class CheckingAccount extends AbstractAccount {
 
 	}
 
-	// TODO: implement toString method which details this account information
-
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString() + ", overdraft " + overdraft;
 	}
 
