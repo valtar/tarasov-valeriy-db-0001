@@ -1,12 +1,15 @@
 package com.acme.task3;
 
 public class Task3Arrays {
+	private static final int DEVISOR = 3;
+
 	public static void main(String[] args) {
 		for (int i = 1; i <= 50; i++) {
-			if (i % 3 == 0) {
-				System.out.println("Число " + i + " кратно трем");
+			if (i % DEVISOR == 0) {
+				System.out.println("Number " + i + " multiplies of three");
 			}
 		}
+
 
 		int n = 50;
 		int[] mass = new int[n];

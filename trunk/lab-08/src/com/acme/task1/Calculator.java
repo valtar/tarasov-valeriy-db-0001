@@ -7,8 +7,8 @@ public class Calculator {
 			return;
 		}
 
-		double operand1 = 0.0D;
-		double operand2 = 0.0D;
+		double operand1 = 0.0;
+		double operand2 = 0.0;
 		char operation = '\u0000';
 
 		try {
@@ -26,7 +26,6 @@ public class Calculator {
 			System.out.println("division by zero");
 			return;
 		}
-
 		double result = 0;
 		switch (operation) {
 		case '+':
