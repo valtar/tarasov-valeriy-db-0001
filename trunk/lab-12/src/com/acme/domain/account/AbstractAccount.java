@@ -26,18 +26,6 @@ public abstract class AbstractAccount implements Account {
 		return Math.round(getBalance());
 	}
 
-	/*
-	 * public String toString() { StringBuffer sb = new StringBuffer();
-	 * sb.append(getSalutation()).append("'s accounts: ");
-	 * 
-	 * if (accounts == null || accounts.size() < 1) {
-	 * sb.append("no one account"); return sb.toString(); }
-	 * 
-	 * for (Account account : accounts) {
-	 * sb.append("account ").append(account.getAccountNumber())
-	 * .append(" balace = ").append(account.getBalance()) .append("; "); }
-	 * return sb.toString(); }
-	 */
 	@Override
 	public String toString() {
 		return "account " + getAccountNumber() + " balace = " + getBalance();
