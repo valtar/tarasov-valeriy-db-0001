@@ -1,8 +1,10 @@
 package com.acme.domain.account;
 
+import java.io.Serializable;
+
 import com.acme.exceptions.NoEnoughFundsException;
 
-public class SavingAccount extends AbstractAccount {
+public class SavingAccount extends AbstractAccount implements Serializable {
 
 	public SavingAccount(final int id, final double amount) {
 		super(id, amount);

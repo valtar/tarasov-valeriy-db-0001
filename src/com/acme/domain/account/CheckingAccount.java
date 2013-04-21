@@ -13,36 +13,18 @@ public class CheckingAccount extends AbstractAccount {
 		this.overdraft = overdraft;
 	}
 
-	@Override
-	public void withdraw(final double amount) throws NoEnoughFundsException {
+	public void withdraw(final double amount)
+			throws OverDraftLimitExceededException, IllegalArgumentException {
 		if (amount < 0) {
-			throw new IllegalArgumentException("Amount can not be negative");
-		}
-		if (this.balance - amount >= -overdraft) {
-			this.balance -= amount;
-		} else {
-			throw new NoEnoughFundsException(amount);
+			throw new IllegalArgumentException("Negative amount to withdraw");
 		}
 
-		if (this.balance < amount) {
-			// Not enough balance to cover the amount requested to withdraw
-			// Check if there is enough in the overdraft protection (if any)
-			double overdraftNeeded = amount - this.balance;
-			if (overdraft < overdraftNeeded) {
-				throw new OverDraftLimitExceededException(overdraftNeeded
-						- overdraft);
-			} else {
-				// Yes, there is overdraft protection and enough to cover the
-				// amount
-				this.balance = 0.0;
-				overdraft -= overdraftNeeded;
-			}
-		} else {
-			// Yes, there is enough balance to cover the amount
-			// Proceed as usual
-			this.balance = this.balance - amount;
+		if (amount <= getBalance() + overdraft) {
+			super.balance = super.balance - amount;
+			return;
 		}
 
+		throw new OverDraftLimitExceededException(amount);
 
 	}
 
@@ -51,7 +33,7 @@ public class CheckingAccount extends AbstractAccount {
 		if (amount > 0) {
 			this.balance += amount;
 		} else {
-			throw new IllegalArgumentException("amount ca not be negative");
+			throw new IllegalArgumentException("Negative amount to deposit");
 		}
 
 	}

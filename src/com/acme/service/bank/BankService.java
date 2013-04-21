@@ -13,7 +13,6 @@ public interface BankService {
 
 	Bank loadBank(String pathFrom) throws IOException;
 
-
 	Client addClient(Bank bank, String name, Gender gender)
 			throws ClientExistsException;
 

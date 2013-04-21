@@ -16,7 +16,6 @@ import com.acme.domain.bank.Client;
 import com.acme.domain.bank.Gender;
 
 public class BankDataLoader {
-	private BankService bankService;
 
 	/**
 	 * Loads a file which contains data feed in the following format: <br>
@@ -26,20 +25,6 @@ public class BankDataLoader {
 	 * @param path
 	 * @throws FileNotFoundException
 	 */
-	public static void main(String[] args) {
-		String path = "D:/towrite/feed";
-		Bank bank = new Bank();
-		try {
-			load(bank,path);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(bank);
-		
-		
-		
-	}
 	public static void load(final Bank bank, final String path)
 			throws FileNotFoundException {
 		File file = new File(path);
@@ -50,20 +35,27 @@ public class BankDataLoader {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				new BufferedInputStream(new FileInputStream(file))));
 		try {
-			for (String line = reader.readLine(); line != null; line = reader
-					.readLine()) {
+			String line = reader.readLine();
+			for (; line != null; line = reader.readLine()) {
 				addClientFromString(bank, line);
 			}
 		} catch (IOException e) {
 			System.out.println(e);
-		} finally{
-			try{
+		} finally {
+			try {
 				reader.close();
-			} catch(IOException e){
+			} catch (IOException e) {
 				System.out.println(e);
 			}
 		}
 
+	}
+
+	public static void addClientFromString(Bank bank, String line) {
+		Client client = getClientFromString(line);
+		if(client != null && !bank.consistClient(client)){
+			bank.addClient(getClientFromString(line));
+		}
 	}
 
 	private static Client getClientFromString(String s) {
@@ -77,7 +69,7 @@ public class BankDataLoader {
 				+ "\\s*gender\\s*=\\s*[mf]\\s*;\\s*";
 
 		if (!s.matches(pattern)) {
-			System.out.println("wrong");
+			System.out.println("wrong client string");
 			return null;
 		}
 		try {
@@ -92,11 +84,10 @@ public class BankDataLoader {
 					.ordinal()]);
 
 			if ("s".equals(values[Key.accounttype.ordinal()])) {
-				// TODO: ID ???
 				account = new SavingAccount(0, balance);
 			} else if ("c".equals(values[Key.accounttype.ordinal()])) {
 				// TODO: ID ???
-				account = new CheckingAccount(1, balance, overdraft);
+				account = new CheckingAccount(0, balance, overdraft);
 			} else {
 				System.err.println("bad logic");
 			}
@@ -117,15 +108,4 @@ public class BankDataLoader {
 		accounttype, balance, overdraft, name, gender
 	};
 
-	public static void addClientFromString(Bank bank, String line) {
-		bank.addClient(getClientFromString(line));
-	}
-
-	public BankService getBankService() {
-		return bankService;
-	}
-
-	public void setBankService(final BankService bankService) {
-		this.bankService = bankService;
-	}
 }
