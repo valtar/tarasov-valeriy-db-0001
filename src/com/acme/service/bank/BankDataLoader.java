@@ -86,7 +86,6 @@ public class BankDataLoader {
 			if ("s".equals(values[Key.accounttype.ordinal()])) {
 				account = new SavingAccount(0, balance);
 			} else if ("c".equals(values[Key.accounttype.ordinal()])) {
-				// TODO: ID ???
 				account = new CheckingAccount(0, balance, overdraft);
 			} else {
 				System.err.println("bad logic");
