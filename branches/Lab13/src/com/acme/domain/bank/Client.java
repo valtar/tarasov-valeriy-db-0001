@@ -5,6 +5,10 @@ import java.io.Serializable;
 import com.acme.domain.account.Account;
 
 public class Client implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private Gender gender;
 	private final int MAX_ACCOUNTS = 10;
@@ -12,13 +16,11 @@ public class Client implements Serializable {
 	Account[] accounts = new Account[MAX_ACCOUNTS];
 	
 	public Client(String name, Gender gender) {
-		// TODO:  implement this
 		this.name = name;
 		this.gender = gender;
 	}
 
 	public void addAccount(Account account) {
-		//TODO: implement this
 		this.accounts[accountCount++] = account;
 	}
 

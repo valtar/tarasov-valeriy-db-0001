@@ -1,5 +1,6 @@
 package com.acme.cli;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +16,6 @@ import com.acme.exceptions.NoEnoughFundsException;
 import com.acme.service.bank.BankDataLoader;
 import com.acme.service.bank.BankService;
 import com.acme.service.bank.impl.BankServiceImpl;
-
 
 /**
  * The following scenarios are available:<br>
@@ -74,29 +74,21 @@ public class BankApplication {
 		}
 
 		// Now we have a bank.
-		
+
 		if (arguments.contains("-s")) {
 			saveTheBankToDataSource(bank);
 		}
 
 	}
 
-
 	private static void initServices() {
 		bankService = new BankServiceImpl();
-		bankDataLoader = new BankDataLoader();
-		bankDataLoader.setBankService(bankService);
-
 	}
-
-	
 
 	private static void saveTheBankToDataSource(final Bank bank)
 			throws IOException {
 		bankService.saveBank(bank, "bank.ser");
 	}
-
-	
 
 	private static Bank loadBankFromDataSource() throws IOException {
 		return bankService.loadBank("bank.ser");
@@ -104,7 +96,7 @@ public class BankApplication {
 
 	private static Bank loadBankFromFeed() throws IOException {
 		Bank bank = new Bank();
-		bankDataLoader.load(bank, "bank.dat");
+		BankDataLoader.load(bank, "bank.dat");
 		saveTheBankToDataSource(bank);
 		return bank;
 	}
