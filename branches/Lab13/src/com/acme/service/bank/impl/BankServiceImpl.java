@@ -44,7 +44,11 @@ public class BankServiceImpl implements BankService {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
 		} finally{
-			
+			try {
+				input.close();
+			} catch (IOException e) {
+				System.out.println(e);
+			}
 		}
 		return null;
 
