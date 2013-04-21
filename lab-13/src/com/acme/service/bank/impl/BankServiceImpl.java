@@ -36,7 +36,7 @@ public class BankServiceImpl implements BankService {
 	}
 
 	public Bank loadBank(final String pathFrom) throws IOException {
-		Bank bank = new Bank();
+		Bank bank = null;
 		ObjectInputStream input = new ObjectInputStream(new FileInputStream(
 				pathFrom));
 		try {
@@ -44,9 +44,13 @@ public class BankServiceImpl implements BankService {
 		} catch (ClassNotFoundException e) {
 			System.out.println(e);
 		} finally{
-			
+			try {
+				input.close();
+			} catch (IOException e) {
+				System.out.println(e);
+			}
 		}
-		return null;
+		return bank;
 
 	}
 
