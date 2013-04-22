@@ -15,18 +15,17 @@ public class BankClient {
 
 	public void startClient() {
 		try {
-			// 1. creating a socket to connect to the server
 			requestSocket = new Socket("localhost", 2004);
 			System.out.println("Connected to localhost in port 2004");
-			// 2. get Input and Output streams
+			
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(requestSocket.getInputStream());
-			// 3: Communicating with the server
+			
 			try {
 				message = (String) in.readObject();
 				System.out.println("server>" + message);
-				sendMessage("add accounttype=c;balance=100;overdraft=50;name=JohnDHBUYGUUontExist;gender=m;");
+				sendMessage("add accounttype=c;balance=100;overdraft=50;name=JohnDontExist;gender=m;");
 				do {
 					message = "bye";
 					sendMessage(message);
@@ -40,7 +39,7 @@ public class BankClient {
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		} finally {
-			// 4: Closing connection
+			
 			try {
 				in.close();
 				out.close();
