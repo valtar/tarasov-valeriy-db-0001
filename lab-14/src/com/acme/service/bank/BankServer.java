@@ -22,10 +22,8 @@ public class BankServer {
 	public void startServer(final Bank bank) {
 		// this.bank = bank;
 		try {
-			// 1. creating a server socket
 			providerSocket = new ServerSocket(2004, 10);
 			while (true) {
-				// 2. Wait for connection
 				System.out.println("Waiting for connection");
 				final Socket connection = providerSocket.accept();
 
@@ -50,13 +48,13 @@ public class BankServer {
 			String message = "";
 			System.out.println("Connection received from "
 					+ connection.getInetAddress().getHostName());
-			// 3. get Input and Output streams
-			out = new ObjectOutputStream(connection.getOutputStream());
+			
+      out = new ObjectOutputStream(connection.getOutputStream());
 			out.flush();
 			in = new ObjectInputStream(connection.getInputStream());
 			sendMessage("Connection successful", out);
-			// 4. The two parts communicate via the input and output streams
-			do {
+			
+      do {
 				try {
 					message = (String) in.readObject();
 					System.out.println("client>" + message);
@@ -83,7 +81,7 @@ public class BankServer {
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 		} finally {
-			// 4: Closing connection
+			
 			try {
 				in.close();
 				out.close();
