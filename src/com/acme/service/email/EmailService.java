@@ -5,7 +5,7 @@ import com.acme.domain.email.Queue;
 import com.acme.domain.email.impl.AddToClosedQueueException;
 import com.acme.domain.email.impl.QueueImpl;
 
-public class EmailService implements Runnable {
+public class EmailService {
 
 	private static EmailService instance = new EmailService();
 
@@ -18,7 +18,7 @@ public class EmailService implements Runnable {
 	private boolean serviceClosed = false;
 
 	private EmailService() {
-		new Thread(){
+		new Thread() {
 
 			@Override
 			public void run() {
@@ -32,7 +32,7 @@ public class EmailService implements Runnable {
 				} catch (InterruptedException e) {
 				}
 			}
-			
+
 		}.start();
 	}
 
@@ -55,12 +55,6 @@ public class EmailService implements Runnable {
 
 	public boolean isClosed() {
 		return serviceClosed;
-	}
-
-	@Override
-	public void run() {
-		
-
 	}
 
 }
