@@ -8,8 +8,10 @@ import com.acme.domain.email.Queue;
 
 public class QueueImpl implements Queue {
 
-	private List<Email> mails = new ArrayList<Email>();
+	private List<Email> mails = new ArrayList<Email>(MAX_EMAILS);
 	private boolean isClosed = false;
+	private static final int MAX_EMAILS = 10;
+	
 
 	public synchronized void addEmail(Email email)
 			throws AddToClosedQueueException {
@@ -25,8 +27,12 @@ public class QueueImpl implements Queue {
 		isClosed = true;
 		notifyAll();
 	}
+	
+	public boolean isClosed(){
+		return isClosed;
+	}
 
-	public synchronized Email getEmail() throws InterruptedException {
+	public synchronized Email getEmailAndRemove() throws InterruptedException {
 		while (isEmpty()) {
 			wait();
 			if(isEmpty() && isClosed){

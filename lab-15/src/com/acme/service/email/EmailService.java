@@ -5,38 +5,48 @@ import com.acme.domain.email.Queue;
 import com.acme.domain.email.impl.AddToClosedQueueException;
 import com.acme.domain.email.impl.QueueImpl;
 
-public class EmailService {
+public class EmailService implements Runnable {
 
-	private static EmailService instance = new EmailService();
+	private static EmailService instance;
+
+	private static Object monitor = new Object();
 
 	private Queue queue = new QueueImpl();
+
 
 	private void sendEmail(Email email) {
 		System.out.println(email);
 	}
 
-	private boolean serviceClosed = false;
-
 	private EmailService() {
-		new Thread() {
+		new Thread(this).start();
+	}
 
-			@Override
-			public void run() {
-				try {
-					while (!serviceClosed) {
-						sendEmail(queue.getEmail());
-					}
-					while (!queue.isEmpty()) {
-						sendEmail(queue.getEmail());
-					}
-				} catch (InterruptedException e) {
+	@Override
+	public void run() {
+		{
+			try {
+				while (!queue.isClosed()) {
+					sendEmail(queue.getEmailAndRemove());
 				}
+				while (!queue.isEmpty()) {
+					sendEmail(queue.getEmailAndRemove());
+				}
+			} catch (InterruptedException e) {
 			}
+		}
 
-		}.start();
 	}
 
 	public static EmailService getEmailService() {
+		if (EmailService.instance == null) {
+			synchronized (monitor) {
+				if (EmailService.instance == null) {
+					instance = new EmailService();
+				}
+			}
+		}
+
 		return instance;
 	}
 
@@ -49,12 +59,11 @@ public class EmailService {
 	}
 
 	public void close() {
-		serviceClosed = true;
 		queue.close();
 	}
 
 	public boolean isClosed() {
-		return serviceClosed;
+		return queue.isClosed();
 	}
 
 }
