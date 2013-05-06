@@ -2,16 +2,16 @@ package com.deutschebank.exchange;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import com.deutschebank.client.Client;
 import com.deutschebank.order.Order;
 import com.deutschebank.stock.StockType;
-import com.sun.istack.internal.logging.Logger;
 
 public class ExchangeService {
 	private StockExchange exchange = new StockExchange();
 	private BlockingQueue<OrderGroup> queue = new LinkedBlockingQueue<OrderGroup>();
-	private Logger log = Logger.getLogger(ExchangeService.class);
+	private Logger log = Logger.getLogger(ExchangeService.class.getName());
 
 	private static class OrderGroup {
 		Client client;
@@ -34,7 +34,7 @@ public class ExchangeService {
 						OrderGroup tmp = queue.take();
 						exchange.add(tmp.client, tmp.order);
 					} catch (InterruptedException e) {
-						log.warning("interupt: ", e);
+						log.warning("interupt: " + e);
 					}
 				}
 			}
@@ -49,7 +49,7 @@ public class ExchangeService {
 		try {
 			queue.put(new OrderGroup(client, order));
 		} catch (InterruptedException e) {
-			log.warning("interupted", e);
+			log.warning("interupted: " + e);
 		}
 	}
 
