@@ -35,10 +35,5 @@ public class OrderAnswer {
 		this.seller = seller;
 		this.price = price;
 	}
-	
-	//TODO: DELETE
-	@Override
-	public String toString(){
-		return "price: " + price;
-	}
+
 }

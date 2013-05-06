@@ -8,11 +8,13 @@ import java.util.TreeSet;
 import com.deutschebank.order.Order;
 import com.deutschebank.order.OrderAnswer;
 import com.deutschebank.order.OrderType;
+import com.sun.istack.internal.logging.Logger;
 
 public class StockGlass {
 	private StockType type;
 	private TreeSet<Order> sellOrders = new TreeSet<>();
 	private TreeSet<Order> buyOrders = new TreeSet<>();
+	private Logger log = Logger.getLogger(StockGlass.class);
 
 	public StockGlass(StockType type) {
 		this.type = type;
@@ -31,17 +33,19 @@ public class StockGlass {
 	}
 
 	public OrderAnswer addOrder(Order order) {
-		if (order.getType() == OrderType.BUY && sellOrders.isEmpty()) {
+		if (order.getOrderType() == OrderType.BUY && sellOrders.isEmpty()) {
 			buyOrders.add(order);
+			log.info("buy order added: " + order);
 			return null;
 		}
-		if (order.getType() == OrderType.SELL && buyOrders.isEmpty()) {
+		if (order.getOrderType() == OrderType.SELL && buyOrders.isEmpty()) {
 			sellOrders.add(order);
+			log.info("sell order added: " + order);
 			return null;
 		}
 
 		OrderAnswer ans = null;
-		switch (order.getType()) {
+		switch (order.getOrderType()) {
 		case SELL:
 			ans = matchAndTryToAdd(order, buyOrders.descendingIterator(),
 					buyOrders);
@@ -50,7 +54,7 @@ public class StockGlass {
 			ans = matchAndTryToAdd(order, sellOrders.iterator(), sellOrders);
 			break;
 		default:
-			System.err.println("Bad!!!");
+			log.warning("Illegal order type: " + order.getOrderType() );
 		}
 
 		return ans;
@@ -58,15 +62,14 @@ public class StockGlass {
 	}
 
 	private boolean compareOrderPrices(Order currentOrder, Order order) {
-		switch (order.getType()) {
+		switch (order.getOrderType()) {
 		case SELL:
 			return order.getPrice() <= currentOrder.getPrice();
 
 		case BUY:
 			return order.getPrice() >= currentOrder.getPrice();
 		default:
-			// TODO: LOG HERE
-			System.out.println("Bad way!");
+			log.warning("Illegal order type: " + order.getOrderType() );
 			return false;
 		}
 	}
@@ -79,9 +82,9 @@ public class StockGlass {
 		do {
 			if (order.getAmount() == current.getAmount()) {
 				orders.remove(current);
-				Order buyer = current.getType() == OrderType.BUY ? current
+				Order buyer = current.getOrderType() == OrderType.BUY ? current
 						: order;
-				Order seller = current.getType() == OrderType.SELL ? current
+				Order seller = current.getOrderType() == OrderType.SELL ? current
 						: order;
 				return new OrderAnswer(buyer, seller, current.getPrice());
 			}
