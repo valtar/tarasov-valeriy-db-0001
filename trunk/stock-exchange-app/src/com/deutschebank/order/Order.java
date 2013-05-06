@@ -1,21 +1,32 @@
 package com.deutschebank.order;
 
 import com.deutschebank.exceptions.IllegalPriceException;
+import com.deutschebank.stock.StockType;
 
 public class Order implements Comparable<Order> {
-	private static int orderIdCount = 0;
+	private static int serverOrderIdCount = 0;
 
-	private int id;
-	private OrderType type = OrderType.BUY;
-	private float price = 0;
-	private int amount = 1;
+	private int serverId;
+	private int clientId;
+	private OrderType orderType;
+	private StockType stockType;
+	public StockType getStockType() {
+		return stockType;
+	}
+
+	private float price;
+	private int amount;
+
+	public int getClientId() {
+		return clientId;
+	}
 
 	public int getAmount() {
 		return amount;
 	}
 
-	public int getId() {
-		return id;
+	public int getServerId() {
+		return serverId;
 	}
 
 	public float getPrice() {
@@ -25,31 +36,33 @@ public class Order implements Comparable<Order> {
 	@Override
 	public int compareTo(Order o) {
 		if (this.price == o.price) {
-			if (this.id == o.id) {
+			if (this.serverId == o.serverId) {
 				return 0;
 			}
-			return this.id < o.id ? 1 : -1;
+			return this.serverId < o.serverId ? 1 : -1;
 		}
 
 		return this.price > o.price ? 1 : -1;
 	}
 
-	public Order(float price, OrderType type, int amount)
+	public Order(float price, OrderType orderType, int amount, int clientId, StockType stockType)
 			throws IllegalPriceException {
 		if (price < 0) {
 			throw new IllegalPriceException("negative price:" + price);
 		}
 		this.price = price;
-		this.type = type;
+		this.orderType = orderType;
 		this.amount = amount;
-		this.id = Order.orderIdCount++;
+		this.serverId = Order.serverOrderIdCount++;
+		this.clientId = clientId;
+		this.stockType = stockType;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + (int) (serverId ^ (serverId >>> 32));
 		return result;
 	}
 
@@ -62,17 +75,17 @@ public class Order implements Comparable<Order> {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
-		if (id != other.id)
+		if (serverId != other.serverId)
 			return false;
 		return true;
 	}
 
-	public OrderType getType() {
-		return type;
+	public OrderType getOrderType() {
+		return orderType;
 	}
 
-	public void setType(OrderType type) {
-		this.type = type;
+	public void setOrderType(OrderType orderType) {
+		this.orderType = orderType;
 	}
 
 }

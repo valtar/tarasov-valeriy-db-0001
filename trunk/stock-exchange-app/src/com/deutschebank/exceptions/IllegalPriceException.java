@@ -1,6 +1,6 @@
 package com.deutschebank.exceptions;
 
-public class IllegalPriceException extends Exception {
+public class IllegalPriceException extends ParseException {
 
 	/**
 	 * 
