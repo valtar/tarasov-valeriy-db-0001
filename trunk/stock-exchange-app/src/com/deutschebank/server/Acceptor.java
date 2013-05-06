@@ -61,15 +61,16 @@ public class Acceptor implements Runnable {
 		}
 	}
 
-	private void initClient() throws IOException, ParseException {
+	private void initClient() throws IOException, ParseException, ClassNotFoundException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String message = reader.readLine();
+		String message = (String)in.readObject();
 		MessageType type = parser.getTypeFromString(message);
 		if (MessageType.NEW_CLIENT != type) {
 			closeConnection();
 		}
 
 		client = parser.getClientFromString(message, this);
+		sendMessage("correct login");
 	}
 
 	private void requestLoop() throws IOException, ClassNotFoundException {
@@ -87,8 +88,8 @@ public class Acceptor implements Runnable {
 				switch (type) {
 				case NEW_ORDER:
 					Order order = parser.getOrderFromString(message);
+					sendMessage("correct");
 					service.add(client, order);
-					sendMessage("correct order");
 					break;
 				case CLOSE_CONNECTION:
 					closeConnection = true;
@@ -114,7 +115,7 @@ public class Acceptor implements Runnable {
 	}
 
 	public void matchNotify(Order order) {
-
+		sendMessage("oder matches:" + order.getClientId());
 	}
 
 }
