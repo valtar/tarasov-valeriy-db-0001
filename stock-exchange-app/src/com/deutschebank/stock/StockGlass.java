@@ -4,17 +4,18 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Logger;
 
 import com.deutschebank.order.Order;
 import com.deutschebank.order.OrderAnswer;
 import com.deutschebank.order.OrderType;
-import com.sun.istack.internal.logging.Logger;
+
 
 public class StockGlass {
 	private StockType type;
 	private TreeSet<Order> sellOrders = new TreeSet<>();
 	private TreeSet<Order> buyOrders = new TreeSet<>();
-	private Logger log = Logger.getLogger(StockGlass.class);
+	private Logger log = Logger.getLogger(StockGlass.class.getName());
 
 	public StockGlass(StockType type) {
 		this.type = type;

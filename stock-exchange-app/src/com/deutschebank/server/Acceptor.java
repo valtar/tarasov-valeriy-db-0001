@@ -6,17 +6,15 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Logger;
 
 import com.deutschebank.client.Client;
 import com.deutschebank.exceptions.ParseException;
 import com.deutschebank.exchange.ExchangeService;
 import com.deutschebank.order.Order;
-import com.sun.istack.internal.logging.Logger;
 
 public class Acceptor implements Runnable {
-	private Logger log = Logger.getLogger(Acceptor.class);
+	private Logger log = Logger.getLogger(Acceptor.class.getName());
 	private Parser parser = new Parser();
 	private Client client;
 	private Socket connection;
@@ -42,7 +40,7 @@ public class Acceptor implements Runnable {
 			requestLoop();
 
 		} catch (IOException ioException) {
-			log.warning("connection failed, cause: ", ioException);
+			log.warning("connection failed, cause: " + ioException);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,13 +55,14 @@ public class Acceptor implements Runnable {
 		try {
 			connection.close();
 		} catch (IOException ioException) {
-			log.warning("can't close connection, cause: ", ioException);
+			log.warning("can't close connection, cause: " + ioException);
 		}
 	}
 
-	private void initClient() throws IOException, ParseException, ClassNotFoundException {
+	private void initClient() throws IOException, ParseException,
+			ClassNotFoundException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String message = (String)in.readObject();
+		String message = (String) in.readObject();
 		MessageType type = parser.getTypeFromString(message);
 		if (MessageType.NEW_CLIENT != type) {
 			closeConnection();
@@ -99,7 +98,7 @@ public class Acceptor implements Runnable {
 				}
 
 			} catch (ParseException e) {
-				log.warning("incorrect parse", e);
+				log.warning("incorrect parse " + e);
 				sendMessage("incorrect order");
 			}
 		} while (!closeConnection);
