@@ -12,7 +12,7 @@ public class Parser {
 
 	public MessageType getTypeFromString(String message) throws ParseException {
 		String[] ss = message.split(DELIMERT);
-		if(ss.length != LoginRequest.amountOfArguments()){
+		if(ss.length < 1){
 			throw new ParseException("illegal number of arguments: " + ss.length);
 		}
 		

@@ -57,6 +57,7 @@ public class StockGlass {
 			log.warning("Illegal order type: " + order.getOrderType() );
 		}
 
+		log.info("order mathes");
 		return ans;
 
 	}
