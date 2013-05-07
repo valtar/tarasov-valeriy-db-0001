@@ -1,9 +1,8 @@
 package com.deutschebank.exchange;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import com.deutschebank.client.Client;
@@ -16,7 +15,7 @@ public class StockExchange {
 	private LinkedList<StockType> listOfStocks = new LinkedList<>();
 	private HashMap<StockType, StockGlass> glasses = new HashMap<>();
 	private HashMap<Order, Client> orderOwners = new HashMap<>();
-	
+
 	private Logger log = Logger.getLogger(StockExchange.class.getName());
 
 	public StockExchange() {
@@ -32,7 +31,7 @@ public class StockExchange {
 	 * notified by calling matchNotify() .
 	 * 
 	 */
-	public synchronized void  add(Client client, Order order) {
+	public synchronized void add(Client client, Order order) {
 		orderOwners.put(order, client);
 		StockType type = order.getStockType();
 
@@ -43,23 +42,45 @@ public class StockExchange {
 		}
 
 		notifyClients(ans);
-
 	}
 
 	private void notifyClients(OrderAnswer ans) {
 		Client notifyClient = null;
 		notifyClient = orderOwners.remove(ans.getBuyer());
-		if(notifyClient == null){
+		if (notifyClient == null) {
 			log.severe("user doesn't exist");
-		}else{
+		} else {
 			notifyClient.matchNotify(ans.getBuyer());
 		}
-		
+
 		notifyClient = orderOwners.remove(ans.getSeller());
-		if(notifyClient == null){
+		if (notifyClient == null) {
 			log.severe("user doesn't exist");
-		}else{
+		} else {
 			notifyClient.matchNotify(ans.getSeller());
+		}
+	}
+
+	public synchronized void deleteClientOrders(Client client) {
+		if (client == null) {
+			return;
+		}
+		if (!orderOwners.containsValue(client)) {
+			return;
+		}
+
+		Order removedOrder = null;
+		Client removedClient = null; 
+		StockGlass glass = null;
+		for (Entry<Order, Client> entry : orderOwners.entrySet()) {
+			removedClient = entry.getValue();
+			removedOrder = entry.getKey();
+			if (client.equals(removedClient)) {
+				orderOwners.remove(removedOrder); 
+				
+				glass = glasses.get(removedOrder.getStockType());
+				glass.removeOrder(removedOrder);
+			}
 		}
 	}
 

@@ -76,6 +76,21 @@ public class StockGlass {
 		}
 	}
 
+	public boolean removeOrder(Order order){
+		boolean isRemoved = false;
+		switch(order.getOrderType()){
+		case BUY:
+			isRemoved = buyOrders.remove(order);
+			break;
+		case SELL:
+			isRemoved = sellOrders.remove(order);
+			break;
+		default:
+		}
+		
+		return isRemoved;
+	}
+	
 	private OrderAnswer matchAndTryToAdd(Order order, Iterator<Order> it,
 			TreeSet<Order> orders) {
 		Order current;

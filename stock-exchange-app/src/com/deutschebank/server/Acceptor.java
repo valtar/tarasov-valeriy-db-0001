@@ -1,8 +1,6 @@
 package com.deutschebank.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -27,6 +25,9 @@ public class Acceptor implements Runnable {
 		this.service = service;
 	}
 
+	enum ServerMessage{
+		CORRECT,INCORRECT,MATCH
+	}
 	@Override
 	public void run() {
 		try {
@@ -34,24 +35,17 @@ public class Acceptor implements Runnable {
 			in = new ObjectInputStream(connection.getInputStream());
 
 			out.flush();
-
-			initClient();
-
 			requestLoop();
 
 		} catch (IOException ioException) {
 			log.warning("connection failed, cause: " + ioException);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO: handle exception
 		} finally {
 			closeConnection();
 		}
 	}
 
 	private void closeConnection() {
+		service.deleteClientOrders(client);
 		try {
 			connection.close();
 		} catch (IOException ioException) {
@@ -59,49 +53,68 @@ public class Acceptor implements Runnable {
 		}
 	}
 
-	private void initClient() throws IOException, ParseException,
-			ClassNotFoundException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-		String message = (String) in.readObject();
-		MessageType type = parser.getTypeFromString(message);
-		if (MessageType.NEW_CLIENT != type) {
-			closeConnection();
-		}
+	private void initClient() {
+		boolean isLogined = false;
+		do {
+			try {
+				String message = (String) in.readObject();
+				MessageType type = parser.getTypeFromString(message);
+				if (MessageType.CLOSE_CONNECTION == type) {
+					closeConnection();
+				}
+				if (MessageType.NEW_CLIENT != type) {
+					sendMessage(ServerMessage.INCORRECT.toString());
+				}
 
-		client = parser.getClientFromString(message, this);
-		sendMessage("correct login");
+				client = parser.getClientFromString(message, this);
+				sendMessage(ServerMessage.CORRECT.toString());
+				isLogined = true;
+			} catch (ParseException e) {
+				sendMessage(ServerMessage.INCORRECT.toString());
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} while (!isLogined);
 	}
 
-	private void requestLoop() throws IOException, ClassNotFoundException {
+	private void requestLoop() {
+		initClient();
 		String message = "";
-		boolean closeConnection = false;
+		boolean isClosed = false;
+		MessageType type;
 		do {
-
-			message = (String) in.readObject();
-			log.info("client>" + message);
-
-			MessageType type;
 			try {
+				message = (String) in.readObject();
+				log.info("client>" + message);
+
 				type = parser.getTypeFromString(message);
 
 				switch (type) {
 				case NEW_ORDER:
 					Order order = parser.getOrderFromString(message);
-					sendMessage("correct");
+					sendMessage(ServerMessage.CORRECT.toString());
 					service.add(client, order);
 					break;
 				case CLOSE_CONNECTION:
-					closeConnection = true;
+					sendMessage(ServerMessage.CORRECT.toString());
+					isClosed = true;
 					break;
 				default:
-					;
+					sendMessage(ServerMessage.INCORRECT.toString());
 				}
 
 			} catch (ParseException e) {
 				log.warning("incorrect parse " + e);
-				sendMessage("incorrect order");
+				sendMessage(ServerMessage.INCORRECT.toString());
+			} catch (ClassNotFoundException e) {
+				log.warning("incorrect " + e);
+			} catch (IOException e) {
+				log.warning("incorrect " + e);
 			}
-		} while (!closeConnection);
+
+		} while (!isClosed);
 	}
 
 	void sendMessage(final String msg) {
@@ -114,7 +127,7 @@ public class Acceptor implements Runnable {
 	}
 
 	public void matchNotify(Order order) {
-		sendMessage("oder matches:" + order.getClientId());
+		sendMessage(ServerMessage.MATCH.toString() + ";" + order.getClientId());
 	}
 
 }

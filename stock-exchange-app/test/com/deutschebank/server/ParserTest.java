@@ -25,7 +25,7 @@ public class ParserTest {
 	
 	@Test
 	public void shouldParseBuyOrder() throws ParseException{
-		String message = "ASK;GOLD;95;10;1";
+		String message = "ORDER;1;ASK;GOLD;95;10";
 		
 		Parser parser = new Parser();
 		Order order = parser.getOrderFromString(message);
@@ -39,7 +39,7 @@ public class ParserTest {
 	
 	@Test
 	public void shouldParseSellOrder() throws ParseException{
-		String message = "BID;GEMS;100;10.5;2";
+		String message = "ORDER;2;BID;GEMS;100;10.5";
 		
 		Parser parser = new Parser();
 		Order order = parser.getOrderFromString(message);
