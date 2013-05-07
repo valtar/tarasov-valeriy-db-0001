@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 
 import com.deutschebank.client.Client;
 import com.deutschebank.order.Order;
-import com.deutschebank.stock.StockType;
 
 public class ExchangeService {
 	private StockExchange exchange = new StockExchange();

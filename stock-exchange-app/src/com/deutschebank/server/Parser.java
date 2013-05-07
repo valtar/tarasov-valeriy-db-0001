@@ -1,7 +1,6 @@
 package com.deutschebank.server;
 
 import com.deutschebank.client.Client;
-import com.deutschebank.exceptions.MessageTypeFormatException;
 import com.deutschebank.exceptions.ParseException;
 import com.deutschebank.order.Order;
 import com.deutschebank.order.OrderType;

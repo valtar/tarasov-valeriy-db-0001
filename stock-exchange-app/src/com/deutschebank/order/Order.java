@@ -1,5 +1,8 @@
 package com.deutschebank.order;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.deutschebank.exceptions.IllegalPriceException;
 import com.deutschebank.stock.StockType;
 
@@ -10,12 +13,12 @@ public class Order implements Comparable<Order> {
 	private int clientId;
 	private OrderType orderType;
 	private StockType stockType;
+	private float price;
+	private int amount;
+
 	public StockType getStockType() {
 		return stockType;
 	}
-
-	private float price;
-	private int amount;
 
 	public int getClientId() {
 		return clientId;
@@ -45,12 +48,13 @@ public class Order implements Comparable<Order> {
 		return this.price > o.price ? 1 : -1;
 	}
 
-	public Order(float price, OrderType orderType, int amount, int clientId, StockType stockType)
-			throws IllegalPriceException {
+	public Order(float price, OrderType orderType, int amount, int clientId,
+			StockType stockType) throws IllegalPriceException {
 		if (price < 0) {
 			throw new IllegalPriceException("negative price:" + price);
 		}
-		this.price = price;
+		this.price = new BigDecimal(price).setScale(3, RoundingMode.DOWN)
+				.floatValue();
 		this.orderType = orderType;
 		this.amount = amount;
 		this.serverId = Order.serverOrderIdCount++;
