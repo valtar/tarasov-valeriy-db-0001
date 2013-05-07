@@ -6,9 +6,9 @@ import com.deutschebank.order.OrderType;
 
 public enum MessageType {
 	NEW_CLIENT("LOGIN"),
-	NEW_ORDER("order"),//BID || ASK
+	NEW_ORDER("ORDER"),
 	CANCEL_ORDER("CANCEL"),
-	CLOSE_CONNECTION("CLOSE"), 
+	CLOSE_CONNECTION("LOGOUT"), 
 	UNKNOWN("unknown");
 	
 	String typeString;
@@ -25,14 +25,6 @@ public enum MessageType {
 				return mType;
 			}
 		}
-		
-		OrderType orderType = null;
-		try{
-			orderType = OrderType.parseOrderType(s);
-			if(orderType != null){
-				return MessageType.NEW_ORDER;
-			}
-		}catch(OrderTypeFormatException e){}
 		
 		throw new MessageTypeFormatException("MessageType '" + s + "' doesn't exist");		
 	}

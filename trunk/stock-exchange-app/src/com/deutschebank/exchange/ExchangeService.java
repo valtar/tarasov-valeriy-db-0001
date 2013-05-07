@@ -16,7 +16,6 @@ public class ExchangeService {
 	private static class OrderGroup {
 		Client client;
 		Order order;
-		StockType type;
 
 		public OrderGroup(Client client, Order order) {
 			this.client = client;
@@ -51,6 +50,10 @@ public class ExchangeService {
 		} catch (InterruptedException e) {
 			log.warning("interupted: " + e);
 		}
+	}
+	
+	public void deleteClientOrders(Client client){
+		exchange.deleteClientOrders(client);
 	}
 
 }
