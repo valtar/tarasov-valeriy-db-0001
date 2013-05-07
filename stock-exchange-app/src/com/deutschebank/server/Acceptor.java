@@ -26,7 +26,7 @@ public class Acceptor implements Runnable {
 	}
 
 	enum ServerMessage {
-		CORRECT, INCORRECT, MATCH
+		ACCEPT, REJECT, MATCH, LOGINSUCCESS, LOGINERROR
 	}
 
 	@Override
@@ -64,15 +64,15 @@ public class Acceptor implements Runnable {
 					closeConnection();
 				}
 				if (MessageType.NEW_CLIENT != type) {
-					sendMessage(ServerMessage.INCORRECT.toString());
+					sendMessage(ServerMessage.REJECT.toString());
 				}
 
 				client = parser.getClientFromString(message, this);
 				log.info("client " + client.getName() + " log in");
-				sendMessage(ServerMessage.CORRECT.toString());
+				sendMessage(ServerMessage.LOGINSUCCESS.toString());
 				isLogined = true;
 			} catch (ParseException e) {
-				sendMessage(ServerMessage.INCORRECT.toString());
+				sendMessage(ServerMessage.LOGINERROR.toString());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -96,20 +96,20 @@ public class Acceptor implements Runnable {
 				switch (type) {
 				case NEW_ORDER:
 					Order order = parser.getOrderFromString(message);
-					sendMessage(ServerMessage.CORRECT.toString());
+					sendMessage(ServerMessage.ACCEPT.toString());
 					service.add(client, order);
 					break;
 				case CLOSE_CONNECTION:
-					sendMessage(ServerMessage.CORRECT.toString());
+					sendMessage(ServerMessage.ACCEPT.toString());
 					isClosed = true;
 					break;
 				default:
-					sendMessage(ServerMessage.INCORRECT.toString());
+					sendMessage(ServerMessage.REJECT.toString());
 				}
 
 			} catch (ParseException e) {
 				log.warning("incorrect parse " + e);
-				sendMessage(ServerMessage.INCORRECT.toString());
+				sendMessage(ServerMessage.REJECT.toString());
 			} catch (ClassNotFoundException e) {
 				log.warning("incorrect " + e);
 			} catch (IOException e) {
