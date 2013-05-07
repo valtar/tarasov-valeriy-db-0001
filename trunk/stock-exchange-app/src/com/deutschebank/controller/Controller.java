@@ -1,4 +1,4 @@
-package com.deuteschebank.controller;
+package com.deutschebank.controller;
 import com.deutschebank.exchange.ExchangeService;
 import com.deutschebank.server.ServerConnector;
 

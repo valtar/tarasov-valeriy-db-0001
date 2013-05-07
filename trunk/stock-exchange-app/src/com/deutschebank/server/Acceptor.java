@@ -25,9 +25,10 @@ public class Acceptor implements Runnable {
 		this.service = service;
 	}
 
-	enum ServerMessage{
-		CORRECT,INCORRECT,MATCH
+	enum ServerMessage {
+		CORRECT, INCORRECT, MATCH
 	}
+
 	@Override
 	public void run() {
 		try {
@@ -67,6 +68,7 @@ public class Acceptor implements Runnable {
 				}
 
 				client = parser.getClientFromString(message, this);
+				log.info("client " + client.getName() + " log in");
 				sendMessage(ServerMessage.CORRECT.toString());
 				isLogined = true;
 			} catch (ParseException e) {
@@ -87,7 +89,7 @@ public class Acceptor implements Runnable {
 		do {
 			try {
 				message = (String) in.readObject();
-				log.info("client>" + message);
+				log.info("client " + client.getName() + ">" + message);
 
 				type = parser.getTypeFromString(message);
 
@@ -112,6 +114,7 @@ public class Acceptor implements Runnable {
 				log.warning("incorrect " + e);
 			} catch (IOException e) {
 				log.warning("incorrect " + e);
+				isClosed = true;
 			}
 
 		} while (!isClosed);

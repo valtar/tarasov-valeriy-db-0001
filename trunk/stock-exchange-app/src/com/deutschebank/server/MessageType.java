@@ -1,8 +1,6 @@
 package com.deutschebank.server;
 
 import com.deutschebank.exceptions.MessageTypeFormatException;
-import com.deutschebank.exceptions.OrderTypeFormatException;
-import com.deutschebank.order.OrderType;
 
 public enum MessageType {
 	NEW_CLIENT("LOGIN"),

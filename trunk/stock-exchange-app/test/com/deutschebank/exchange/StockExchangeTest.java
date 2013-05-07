@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.deutschebank.client.Client;
