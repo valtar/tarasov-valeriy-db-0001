@@ -44,7 +44,7 @@ public class StockExchange {
 		notifyClients(ans);
 	}
 
-	private void notifyClients(OrderAnswer ans) {
+	private synchronized void notifyClients(OrderAnswer ans) {
 		Client seller = orderOwners.remove(ans.getBuyer());
 		Client buyer = orderOwners.remove(ans.getSeller());
 
