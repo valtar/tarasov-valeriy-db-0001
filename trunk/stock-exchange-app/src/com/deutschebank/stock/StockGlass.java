@@ -10,7 +10,6 @@ import com.deutschebank.order.Order;
 import com.deutschebank.order.OrderAnswer;
 import com.deutschebank.order.OrderType;
 
-
 public class StockGlass {
 	private StockType type;
 	private TreeSet<Order> sellOrders = new TreeSet<>();
@@ -55,10 +54,11 @@ public class StockGlass {
 			ans = matchAndTryToAdd(order, sellOrders.iterator(), sellOrders);
 			break;
 		default:
-			log.warning("Illegal order type: " + order.getOrderType() );
+			log.warning("Illegal order type: " + order.getOrderType());
 		}
 
-		log.info("order mathes");
+		log.info("order mathes: buy_order>" + ans.getBuyer() + " ;sell_order>"
+				+ ans.getSeller() + " ;price = " + ans.price);
 		return ans;
 
 	}
@@ -71,14 +71,14 @@ public class StockGlass {
 		case BUY:
 			return order.getPrice() >= currentOrder.getPrice();
 		default:
-			log.warning("Illegal order type: " + order.getOrderType() );
+			log.warning("Illegal order type: " + order.getOrderType());
 			return false;
 		}
 	}
 
-	public boolean removeOrder(Order order){
+	public boolean removeOrder(Order order) {
 		boolean isRemoved = false;
-		switch(order.getOrderType()){
+		switch (order.getOrderType()) {
 		case BUY:
 			isRemoved = buyOrders.remove(order);
 			break;
@@ -87,10 +87,10 @@ public class StockGlass {
 			break;
 		default:
 		}
-		
+
 		return isRemoved;
 	}
-	
+
 	private OrderAnswer matchAndTryToAdd(Order order, Iterator<Order> it,
 			TreeSet<Order> orders) {
 		Order current;
