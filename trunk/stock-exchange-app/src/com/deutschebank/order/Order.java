@@ -53,7 +53,7 @@ public class Order implements Comparable<Order> {
 		if (price < 0) {
 			throw new IllegalPriceException("negative price:" + price);
 		}
-		this.price = new BigDecimal(price).setScale(3, RoundingMode.DOWN)
+		this.price = new BigDecimal(price).setScale(3, RoundingMode.HALF_DOWN)
 				.floatValue();
 		this.orderType = orderType;
 		this.amount = amount;

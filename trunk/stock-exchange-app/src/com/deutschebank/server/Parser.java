@@ -23,9 +23,8 @@ public class Parser {
 	}
 
 	enum OrderRequest {
-		OPERATION_TYPE,ID_REQUEST, ORDER_TYPE,
-		STOCK_TYPE,NUMBER_OF_SHARES, PRICE;
-	
+		OPERATION_TYPE, ID_REQUEST, ORDER_TYPE, STOCK_TYPE, PRICE, NUMBER_OF_SHARES;
+
 		public static int amountOfArguments() {
 			return OrderRequest.values().length;
 		}
@@ -38,10 +37,9 @@ public class Parser {
 			throw new ParseException("illegal number of arguments: "
 					+ ss.length);
 		}
-		MessageType messageType = MessageType.parseMessageType(
-				ss[OrderRequest.OPERATION_TYPE.ordinal()]
-				);
-		if(messageType != MessageType.NEW_ORDER){
+		MessageType messageType = MessageType
+				.parseMessageType(ss[OrderRequest.OPERATION_TYPE.ordinal()]);
+		if (messageType != MessageType.NEW_ORDER) {
 			throw new ParseException("illegal order comand");
 		}
 
