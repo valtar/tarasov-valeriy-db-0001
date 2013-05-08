@@ -5,57 +5,85 @@ import java.awt.event.ActionListener;
 
 import javax.management.monitor.Monitor;
 
+import com.deutschebank.connection.MatchAnswer;
+import com.deutschebank.model.HistoryTableModelData;
 import com.deutschebank.model.Model;
 import com.deutschebank.view.View;
 import com.deutschebank.view.frames.LoginFrame;
+
 public class Controller {
 	private View view;
 	private Model model;
-	private Object montor = new Object();
-	
-	public Controller(View view, Model model) {
-		super();
-		this.view = view;
-		this.model = model;
+	private Object monitor = new Object();
+	private HistoryTableModelData data = new HistoryTableModelData();
+
+	public Controller() {
+		this.view = new View();
+		this.model = new Model(this,data);
 	}
 
 	public static void main(String[] args) {
-		View view = new View();
-		Model model = new Model();
-		
-		Controller c = new Controller(view,model);
+		Controller c = new Controller();
 		c.start();
 	}
 
-	class LoginButtonListener implements ActionListener{
+	class LoginButtonListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String s = view.getLogin();
 			model.loginAdded(s);
 			view.disposeLoginFrame();
-			synchronized (montor) {
-				montor.notify();
+			synchronized (monitor) {
+				monitor.notify();
 			}
+
+		}
+
+	}
+	class OrderButtonListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Order order = view.getOrder();
+			model.orderAdded(order);
+			view.disposeOrderFrame();
 			
 		}
 		
 	}
-	LoginFrame lf = new LoginFrame();
 	
-	private void start() {
-		model.connectServer();
+	class MainWindowExitListener {
 		
+	}
+
+	private void start() {
+
+		model.connectServer();
 		view.startLoginFrame(new LoginButtonListener());
 		try {
-			synchronized (montor) {
-				montor.wait();
+			synchronized (monitor) {
+				monitor.wait();
 			}
 		} catch (InterruptedException e) {}
 		System.out.println("here");
 
-		view.startMainFrame();
-	
+		view.startMainFrame(new OrderButtonListener(),data);
+
+	}
+
+	public void mainWidowClosed() {
+		model.closeConnection();
+		
+	}
+
+	public void matchNotify(MatchAnswer ans) {
+		model.matchNotify(ans);
+	}
+
+	public void dataChanged() {
+		view.dataChanged();
+		
 	}
 
 }

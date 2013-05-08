@@ -6,19 +6,23 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Logger;
 
+import com.deutschebank.controller.Controller;
+
 public class Connector {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Socket requestSocket;
-	private boolean b;
+	private boolean b = true;
 	private String host;
 	private int port;
 	private Logger log = Logger.getLogger(Connector.class.getName());
+	Controller controller;
 
-	public Connector(String host, int port) {
+	public Connector(String host, int port, Controller controller) {
 		super();
 		this.host = host;
 		this.port = port;
+		this.controller = controller;
 	}
 
 	public boolean connect() {
@@ -51,6 +55,7 @@ public class Connector {
 	}
 	
 	public void readMessage(){
+		final Parser parser = new Parser(controller);
 		new Thread(){
 
 			@Override
@@ -59,7 +64,9 @@ public class Connector {
 				while(b){
 					try {
 						msg = (String) in.readObject();
-						System.out.println(msg);
+						log.info("server>" + msg);
+						parser.parse(msg);
+						
 					} catch (ClassNotFoundException | IOException e) {
 						log.warning(e.toString());
 					}
@@ -72,6 +79,7 @@ public class Connector {
 	
 	
 	public void closeConnection(){
+		b = false;
 		try{
 			requestSocket.close();
 		}catch(IOException e){
