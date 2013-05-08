@@ -42,7 +42,10 @@ public class Order implements Comparable<Order> {
 			if (this.serverId == o.serverId) {
 				return 0;
 			}
-			return this.serverId < o.serverId ? 1 : -1;
+			if(OrderType.BUY == orderType){
+				return this.serverId < o.serverId ? 1 : -1;
+			}
+			return this.serverId < o.serverId ? -1 : 1;
 		}
 
 		return this.price > o.price ? 1 : -1;
