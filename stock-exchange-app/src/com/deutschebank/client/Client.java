@@ -49,9 +49,9 @@ public class Client {
 		this.acceptor = acceptor;
 	}
 	
-	public synchronized void matchNotify(Order orderOwner, String counterParty){
+	public synchronized void matchNotify(Order orderOwner, String counterParty, float price){
 		removeOrder(orderOwner);
-		acceptor.matchNotify(orderOwner,counterParty);
+		acceptor.matchNotify(orderOwner,counterParty,price);
 	}
 	
 	public synchronized boolean addOrder(Order order){

@@ -34,9 +34,9 @@ public class StockExchangeTest {
 		se.add(buyer, buy);
 		se.add(some, someOrder);
 		
-		verify(seller).matchNotify(any(Order.class),any(String.class));
-		verify(buyer).matchNotify(any(Order.class),any(String.class));
-		verify(some,times(0)).matchNotify(any(Order.class),any(String.class));
+		verify(seller).matchNotify(any(Order.class),any(String.class),any(Float.class));
+		verify(buyer).matchNotify(any(Order.class),any(String.class),any(Float.class));
+		verify(some,times(0)).matchNotify(any(Order.class),any(String.class),any(Float.class));
 	}
 	
 

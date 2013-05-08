@@ -49,7 +49,7 @@ public class Acceptor implements Runnable {
 		service.deleteClientOrders(client);
 		try {
 			connection.close();
-			log.info("client " + client.getName() + " is loged out" );
+			log.info("client " + client.getName() + " is loged out");
 		} catch (IOException ioException) {
 			log.warning("can't close connection, cause: " + ioException);
 		}
@@ -65,7 +65,7 @@ public class Acceptor implements Runnable {
 					closeConnection();
 				}
 				if (MessageType.NEW_CLIENT != type) {
-					sendMessage(ServerMessage.REJECT.toString());
+					sendMessage(ServerMessage.LOGINERROR.toString());
 				}
 
 				client = parser.getClientFromString(message, this);
@@ -130,13 +130,15 @@ public class Acceptor implements Runnable {
 		}
 	}
 
-	public String constructMatchMessage(Order orderOwner, String counterparty){
-		return ServerMessage.MATCH.toString() + ";" + orderOwner.getClientId() + ";" +
-				counterparty + ";" + orderOwner.getPrice() + ";" + orderOwner.getAmount();
+	public String constructMatchMessage(Order orderOwner, String counterparty,
+			float price) {
+		return ServerMessage.MATCH.toString() + ";" + orderOwner.getClientId()
+				+ ";" + counterparty + ";" + price + ";"
+				+ orderOwner.getAmount();
 	}
-	
-	public void matchNotify(Order orderOwner, String counterparty) {
-		sendMessage(constructMatchMessage(orderOwner, counterparty));
+
+	public void matchNotify(Order orderOwner, String counterparty, float price) {
+		sendMessage(constructMatchMessage(orderOwner, counterparty, price));
 	}
 
 }
