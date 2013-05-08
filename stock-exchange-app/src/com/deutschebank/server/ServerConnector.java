@@ -15,6 +15,7 @@ public class ServerConnector {
 	public synchronized void startServer(int port, int backlog, ExchangeService service) {
 		try {
 			providerSocket = new ServerSocket(port, backlog);
+			log.info("sertver starts at port: " + port);
 		} catch (IOException e) {
 			log.warning("server failed, cause: " + e);
 			try {
