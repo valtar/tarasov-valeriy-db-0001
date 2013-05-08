@@ -66,7 +66,6 @@ public class Controller {
 				}
 			} catch (InterruptedException e) {
 			}
-			System.out.println("here");
 
 			view.startMainFrame(new OrderButtonListener(), data);
 		} catch (Exception e) {

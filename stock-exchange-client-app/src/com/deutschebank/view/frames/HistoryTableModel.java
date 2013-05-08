@@ -1,7 +1,5 @@
 package com.deutschebank.view.frames;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -9,8 +7,6 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
 import com.deutschebank.model.HistoryTableModelData;
-import com.deutschebank.view.OrderType;
-import com.deutschebank.view.StockType;
 
 public class HistoryTableModel extends AbstractTableModel {
 	private int columnCount = HistoryTableColumns.values().length;
