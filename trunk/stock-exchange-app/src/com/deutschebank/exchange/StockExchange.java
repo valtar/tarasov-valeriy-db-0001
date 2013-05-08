@@ -45,8 +45,8 @@ public class StockExchange {
 	}
 
 	private synchronized void notifyClients(OrderAnswer ans) {
-		Client seller = orderOwners.remove(ans.getBuyer());
-		Client buyer = orderOwners.remove(ans.getSeller());
+		Client seller = orderOwners.remove(ans.getSeller());
+		Client buyer = orderOwners.remove(ans.getBuyer());
 
 		String sellerCounterparty = "unknown";
 		String buyerCounterparty = "unknown";
