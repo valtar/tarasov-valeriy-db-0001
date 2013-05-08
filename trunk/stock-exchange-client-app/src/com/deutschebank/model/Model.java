@@ -12,8 +12,8 @@ public class Model {
 	private final String DELIMETER = ";";
 	private Connector connector;
 	private Controller controller;
-	HistoryTableModelData data ;
-	
+	HistoryTableModelData data;
+
 	public Model(Controller controller, HistoryTableModelData data) {
 		this.controller = controller;
 		this.data = data;
@@ -26,16 +26,20 @@ public class Model {
 
 	public void connectServer() throws IOException {
 		if (connector == null) {
-			connector = new Connector("localhost", 5555,controller);
+			connector = new Connector("localhost", 5555, controller);
 			connector.connect();
 		}
 	}
 
-
-	public void orderAdded(Order order) {
-		data.addItem(new HistoryTableModelDataEntry(order));
-		controller.dataChanged();
-		connector.sendMessage(order.getOrderMessage());
+	public boolean orderAdded(Order order) {
+		if (connector.sendMessage(order.getOrderMessage())) {
+			data.addItem(new HistoryTableModelDataEntry(order));
+			controller.dataChanged();
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 
 	public void closeConnection() {
@@ -44,10 +48,9 @@ public class Model {
 
 	public void matchNotify(MatchAnswer ans) {
 		synchronized (data) {
-			data.changeItem(ans);			
+			data.changeItem(ans);
 		}
 
-		
 		controller.dataChanged();
 	}
 

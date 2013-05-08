@@ -47,6 +47,7 @@ public class Parser {
 				log.warning("invalid message: " + msg);
 				return;
 			}
+			log.info("successufully parsed");
 			controller.matchNotify(ans);
 		default:
 			break;
