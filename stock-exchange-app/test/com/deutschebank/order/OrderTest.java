@@ -23,30 +23,30 @@ public class OrderTest {
 
 	}
 
-	@Test
-	public void shouldBeSmallerBuyerWhenCreatedEarlier() throws IllegalPriceException {
-		OrderType orderType = OrderType.BUY;
-		StockType stockType = StockType.GOLD;
-		
-		Order firstCreated = new Order(1, orderType, 1,1,stockType);
-		Order lastCreated = new Order(1, orderType, 1,1,stockType);
-
-		int isRightOrdered = firstCreated.compareTo(lastCreated);
-
-		assertTrue(isRightOrdered < 0);
-	}
-	@Test
-	public void shouldBeGreaterSellerWhenCreatedEarlier() throws IllegalPriceException {
-		OrderType orderType = OrderType.SELL;
-		StockType stockType = StockType.GOLD;
-		
-		Order firstCreated = new Order(1, orderType, 1,1,stockType);
-		Order lastCreated = new Order(1, orderType, 1,1,stockType);
-		
-		int isRightOrdered = firstCreated.compareTo(lastCreated);
-		
-		assertTrue(isRightOrdered > 0);
-	}
+//	@Test
+//	public void shouldBeGrBuyerWhenCreatedEarlier() throws IllegalPriceException {
+//		OrderType orderType = OrderType.BUY;
+//		StockType stockType = StockType.GOLD;
+//		
+//		Order firstCreated = new Order(1, orderType, 1,1,stockType);
+//		Order lastCreated = new Order(1, orderType, 1,1,stockType);
+//
+//		int isRightOrdered = firstCreated.compareTo(lastCreated);
+//
+//		assertTrue(isRightOrdered < 0);
+//	}
+//	@Test
+//	public void shouldBeGreaterSellerWhenCreatedEarlier() throws IllegalPriceException {
+//		OrderType orderType = OrderType.SELL;
+//		StockType stockType = StockType.GOLD;
+//		
+//		Order firstCreated = new Order(1, orderType, 1,1,stockType);
+//		Order lastCreated = new Order(1, orderType, 1,1,stockType);
+//		
+//		int isRightOrdered = firstCreated.compareTo(lastCreated);
+//		
+//		assertTrue(isRightOrdered > 0);
+//	}
 	
 	@Test
 	public void shouldBeEqualsIfPriceBiggerInMoreThenThirdNumberAfterDecimal() throws IllegalPriceException{
