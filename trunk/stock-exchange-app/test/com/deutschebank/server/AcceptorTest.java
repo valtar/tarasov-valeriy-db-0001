@@ -22,7 +22,7 @@ public class AcceptorTest {
 		Acceptor a = new Acceptor(null, null);
 		Order orderOwner = new Order(price,null , amount, id, null);
 
-		assertEquals(s, a.constructMatchMessage(orderOwner, counterparty));
+		assertEquals(s, a.constructMatchMessage(orderOwner, counterparty, price));
 
 	}
 

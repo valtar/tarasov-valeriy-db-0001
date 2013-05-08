@@ -64,11 +64,11 @@ public class StockExchange {
 		}
 		
 		if(buyer != null){
-			buyer.matchNotify(ans.getBuyer(), buyerCounterparty);
+			buyer.matchNotify(ans.getBuyer(), buyerCounterparty, ans.price);
 		}
 		
 		if(seller != null){
-			seller.matchNotify(ans.getSeller(), sellerCounterparty);
+			seller.matchNotify(ans.getSeller(), sellerCounterparty,ans.price);
 		}
 		
 	}
