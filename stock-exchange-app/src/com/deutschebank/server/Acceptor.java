@@ -127,7 +127,7 @@ public class Acceptor implements Runnable {
 			out.writeObject(msg);
 			out.flush();
 		} catch (IOException ioException) {
-			ioException.printStackTrace();
+			log.warning("can't send message: " + ioException);
 		}
 	}
 
