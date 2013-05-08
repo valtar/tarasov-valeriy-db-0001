@@ -7,6 +7,6 @@ public class Controller {
 	public static void main(String[] args) {
 		ExchangeService es = new ExchangeService();
 		ServerConnector connector = new ServerConnector();
-		connector.startServer(2004, 10, es);
+		connector.startServer(5555, 10, es);
 	}
 }
