@@ -1,5 +1,7 @@
 package com.deutschebank.model;
 
+import java.io.IOException;
+
 import com.deutschebank.connection.Connector;
 import com.deutschebank.connection.MatchAnswer;
 import com.deutschebank.controller.Controller;
@@ -22,7 +24,7 @@ public class Model {
 		return true;
 	}
 
-	public void connectServer() {
+	public void connectServer() throws IOException {
 		if (connector == null) {
 			connector = new Connector("localhost", 5555,controller);
 			connector.connect();

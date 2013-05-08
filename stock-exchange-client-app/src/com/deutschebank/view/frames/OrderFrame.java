@@ -89,10 +89,10 @@ public class OrderFrame extends JFrame {
 				GridBagConstraints.LINE_START, GridBagConstraints.NONE,
 				new Insets(0, 0, 0, 0), 0, 0));
 		y++;
-		panel.add(bestPriceCheckBox, new GridBagConstraints(x, y, 1, 1, 1, 1,
-				GridBagConstraints.LINE_START, GridBagConstraints.NONE,
-				new Insets(0, 0, 0, 0), 0, 0));
-		y++;
+//		panel.add(bestPriceCheckBox, new GridBagConstraints(x, y, 1, 1, 1, 1,
+//				GridBagConstraints.LINE_START, GridBagConstraints.NONE,
+//				new Insets(0, 0, 0, 0), 0, 0));
+//		y++;
 		x = 0;
 		panel.add(button, new GridBagConstraints(x, y, 2, 1, 1, 1,
 				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(

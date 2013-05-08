@@ -25,11 +25,9 @@ public class Connector {
 		this.controller = controller;
 	}
 
-	public boolean connect() {
+	public boolean connect() throws IOException {
 		try {
 			requestSocket = new Socket(host, port);
-
-			System.out.println("Connected to localhost in port 2004");
 
 			out = new ObjectOutputStream(requestSocket.getOutputStream());
 			out.flush();
@@ -39,13 +37,15 @@ public class Connector {
 			return true;
 		} catch (IOException e) {
 			log.warning("can't connect to host: " + host + ";port: " + port);
-			return false;
+			b = false;
+			throw new IOException(e);
 		}
 	}
-	
-	public boolean sendMessage(String s){
-		
+
+	public boolean sendMessage(String s) {
+
 		try {
+			log.info("sending message :" + s);
 			out.writeObject(s);
 		} catch (IOException e) {
 			log.warning("can't send message to server");
@@ -53,38 +53,41 @@ public class Connector {
 		}
 		return true;
 	}
-	
-	public void readMessage(){
+
+	public void readMessage() {
 		final Parser parser = new Parser(controller);
-		Thread t = new Thread(){
+		Thread t = new Thread() {
 
 			@Override
 			public void run() {
 				String msg = null;
-				while(b){
-					try {
-						msg = (String) in.readObject();
-						log.info("server>" + msg);
-						parser.parse(msg);
-						
-					} catch (ClassNotFoundException | IOException e) {
-						log.warning(e.toString());
+				try {
+					while (b) {
+						try {
+							msg = (String) in.readObject();
+							log.info("server>" + msg);
+							parser.parse(msg);
+
+						} catch (ClassNotFoundException e) {
+							log.warning(e.toString());
+						}
 					}
+				} catch (IOException e) {
+					log.warning(e.toString());
 				}
 			}
-			
+
 		};
 		t.setDaemon(true);
 		t.start();
 	}
-	
-	
-	
-	public void closeConnection(){
+
+	public void closeConnection() {
 		b = false;
-		try{
+		try {
 			requestSocket.close();
-		}catch(IOException e){
+			log.info("connection closed");
+		} catch (IOException e) {
 			log.warning("can't close connection");
 		}
 	}
