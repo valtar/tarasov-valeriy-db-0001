@@ -15,32 +15,56 @@ public class HistoryTableModelData {
 	private List<StockType> stockNames;
 	private List<OrderType> orderNames;
 	private List<OrderStatus> statuses;
+	private List<Float> dealPrices;
+	private List<String> counterpartys;
 	
-	public void  addItem(HistoryTableModelDataEntry entry){
+	public List<Float> getDealPrices() {
+		return dealPrices;
+	}
+
+	public void setDealPrices(List<Float> dealPrices) {
+		this.dealPrices = dealPrices;
+	}
+
+	public List<String> getCounterpartys() {
+		return counterpartys;
+	}
+
+	public void setCounterpartys(List<String> counterpartys) {
+		this.counterpartys = counterpartys;
+	}
+
+
+	public void addItem(HistoryTableModelDataEntry entry) {
 		ids.add(entry.id);
 		nShares.add(entry.nShare);
 		prices.add(entry.price);
 		stockNames.add(entry.stockName);
 		orderNames.add(entry.orderName);
 		statuses.add(entry.status);
+		dealPrices.add(entry.dealPrice);
+		counterpartys.add(entry.counterparty);
 	}
 
 	public HistoryTableModelData() {
-		this(
-				new ArrayList<Integer>(), new ArrayList<Integer>(),
+		this(new ArrayList<Integer>(), new ArrayList<Integer>(),
 				new ArrayList<Float>(), new ArrayList<StockType>(),
-				new ArrayList<OrderType>(), new ArrayList<OrderStatus>());
+				new ArrayList<OrderType>(), new ArrayList<OrderStatus>(),
+				new ArrayList<Float>(), new ArrayList<String>());
 	}
-	
+
 	public HistoryTableModelData(List<Integer> ids, List<Integer> nShares,
 			List<Float> prices, List<StockType> stockNames,
-			List<OrderType> orderNames, List<OrderStatus> statuses) {
+			List<OrderType> orderNames, List<OrderStatus> statuses,
+			List<Float> dealPrices, List<String> counterpartys) {
 		this.ids = ids;
 		this.nShares = nShares;
 		this.prices = prices;
 		this.stockNames = stockNames;
 		this.orderNames = orderNames;
 		this.statuses = statuses;
+		this.dealPrices = dealPrices;
+		this.counterpartys = counterpartys;
 	}
 
 	public List<Integer> getIds() {
@@ -93,9 +117,12 @@ public class HistoryTableModelData {
 
 	public void changeItem(MatchAnswer ans) {
 		int ind = 0;
-		if(!ids.contains(ans.id)) return;
+		if (!ids.contains(ans.id))
+			return;
 		ind = ids.indexOf(ans.id);
-		
+
 		statuses.set(ind, OrderStatus.FILLED);
+		counterpartys.set(ind, ans.counterparty);
+		dealPrices.set(ind, ans.price);
 	}
 }

@@ -41,7 +41,11 @@ public class Model {
 	}
 
 	public void matchNotify(MatchAnswer ans) {
-		data.changeItem(ans);
+		synchronized (data) {
+			data.changeItem(ans);			
+		}
+
+		
 		controller.dataChanged();
 	}
 

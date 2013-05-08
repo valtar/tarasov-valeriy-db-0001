@@ -19,7 +19,7 @@ public class MatchAnswer {
 	enum MatchAnswerOrder {
 		MESSAGE_TYPE, ID, COUNTERPARTY, PRICE, N_SHARES
 	}
-//	MATCH;0;ûגלûגלûג;1.0;1
+//	MATCH;0;name;1.0;1
 	public static MatchAnswer parseMatchAnswer(String s) {
 		String[] ss = s.split(DELIMETR);
 		MatchAnswer answer = null;

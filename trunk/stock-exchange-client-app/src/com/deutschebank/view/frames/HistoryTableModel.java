@@ -15,10 +15,7 @@ import com.deutschebank.view.StockType;
 public class HistoryTableModel extends AbstractTableModel {
 	private int columnCount = HistoryTableColumns.values().length;
 	private int rowCount = 0;
-	HistoryTableModelData data = new HistoryTableModelData(
-			new ArrayList<Integer>(), new ArrayList<Integer>(),
-			new ArrayList<Float>(), new ArrayList<StockType>(),
-			new ArrayList<OrderType>(), new ArrayList<OrderStatus>());
+	HistoryTableModelData data;
 
 	@Override
 	public String getColumnName(int column) {
@@ -37,7 +34,7 @@ public class HistoryTableModel extends AbstractTableModel {
 	}
 
 	public enum HistoryTableColumns {
-		ID, PRICE, STOCKNAME, OPERATION, N_SHARES, STATUS
+		ID, PRICE, STOCKNAME, OPERATION, N_SHARES, STATUS, DEALPRICE, COUNTERPARTY
 	}
 
 
@@ -70,6 +67,10 @@ public class HistoryTableModel extends AbstractTableModel {
 			return data.getStatuses().get(rowIndex);
 		case STOCKNAME:
 			return data.getStockNames().get(rowIndex);
+		case COUNTERPARTY:
+			return data.getCounterpartys().get(rowIndex);
+		case DEALPRICE:
+			return data.getDealPrices().get(rowIndex);
 		default:
 			return 1;
 		}

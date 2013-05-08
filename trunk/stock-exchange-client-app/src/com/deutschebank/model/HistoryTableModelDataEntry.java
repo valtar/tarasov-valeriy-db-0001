@@ -1,5 +1,7 @@
 package com.deutschebank.model;
 
+import java.util.List;
+
 import com.deutschebank.controller.Order;
 import com.deutschebank.view.OrderType;
 import com.deutschebank.view.StockType;
@@ -12,8 +14,12 @@ public class HistoryTableModelDataEntry {
 	public StockType stockName;
 	public OrderType orderName;
 	public OrderStatus status;
+	public Float dealPrice;
+	public String counterparty;
+
 	public HistoryTableModelDataEntry(Integer id, Integer nShare, Float price,
-			StockType stockName, OrderType orderName, OrderStatus statuse) {
+			StockType stockName, OrderType orderName, OrderStatus statuse,
+			Float dealPrice, String counterparty) {
 		super();
 		this.id = id;
 		this.nShare = nShare;
@@ -21,12 +27,15 @@ public class HistoryTableModelDataEntry {
 		this.stockName = stockName;
 		this.orderName = orderName;
 		this.status = statuse;
+		this.dealPrice = dealPrice;
+		this.counterparty = counterparty;
 	}
-	
-	public HistoryTableModelDataEntry(Order order){
-		this(order.getId(), order.getAmount(), order.getPrice(), order.getStockType(), order.getOrderType(), OrderStatus.NEW);
-		
-		
+
+	public HistoryTableModelDataEntry(Order order) {
+		this(order.getId(), order.getAmount(), order.getPrice(), order
+				.getStockType(), order.getOrderType(), OrderStatus.NEW, 0F,
+				"UKNOWN");
+
 	}
 
 }

@@ -56,7 +56,7 @@ public class Connector {
 	
 	public void readMessage(){
 		final Parser parser = new Parser(controller);
-		new Thread(){
+		Thread t = new Thread(){
 
 			@Override
 			public void run() {
@@ -73,7 +73,9 @@ public class Connector {
 				}
 			}
 			
-		}.start();
+		};
+		t.setDaemon(true);
+		t.start();
 	}
 	
 	
