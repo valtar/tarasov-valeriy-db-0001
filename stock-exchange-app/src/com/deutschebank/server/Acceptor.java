@@ -49,6 +49,7 @@ public class Acceptor implements Runnable {
 		service.deleteClientOrders(client);
 		try {
 			connection.close();
+			log.info("client " + client.getName() + " is loged out" );
 		} catch (IOException ioException) {
 			log.warning("can't close connection, cause: " + ioException);
 		}
@@ -129,8 +130,13 @@ public class Acceptor implements Runnable {
 		}
 	}
 
-	public void matchNotify(Order order) {
-		sendMessage(ServerMessage.MATCH.toString() + ";" + order.getClientId());
+	public String constructMatchMessage(Order orderOwner, String counterparty){
+		return ServerMessage.MATCH.toString() + ";" + orderOwner.getClientId() + ";" +
+				counterparty + ";" + orderOwner.getPrice() + ";" + orderOwner.getAmount();
+	}
+	
+	public void matchNotify(Order orderOwner, String counterparty) {
+		sendMessage(constructMatchMessage(orderOwner, counterparty));
 	}
 
 }

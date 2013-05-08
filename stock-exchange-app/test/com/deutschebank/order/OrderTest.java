@@ -35,4 +35,15 @@ public class OrderTest {
 
 		assertTrue(isRightOrdered > 0);
 	}
+	
+	@Test
+	public void shouldBeEqualsIfPriceBiggerInMoreThenThirdNumberAfterDecimal() throws IllegalPriceException{
+		Order o1 = new Order((float) 10.33333, null, 0, 1, null) ;
+		Order o2 = new Order((float) 10.33399, null, 0, 1, null) ;
+		
+		float f1 = o1.getPrice();
+		float f2 = o2.getPrice();
+		
+		assertEquals(f1, f2, 7);
+	}
 }

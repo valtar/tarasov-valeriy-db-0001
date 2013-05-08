@@ -45,20 +45,32 @@ public class StockExchange {
 	}
 
 	private void notifyClients(OrderAnswer ans) {
-		Client notifyClient = null;
-		notifyClient = orderOwners.remove(ans.getBuyer());
-		if (notifyClient == null) {
-			log.severe("user doesn't exist");
-		} else {
-			notifyClient.matchNotify(ans.getBuyer());
+		Client seller = orderOwners.remove(ans.getBuyer());
+		Client buyer = orderOwners.remove(ans.getSeller());
+
+		String sellerCounterparty = "unknown";
+		String buyerCounterparty = "unknown";
+		
+		if(buyer == null) {
+			log.severe("user " + ans.getBuyer() + "doesn't exist");
+		}else{
+			sellerCounterparty = buyer.getName();
 		}
 
-		notifyClient = orderOwners.remove(ans.getSeller());
-		if (notifyClient == null) {
-			log.severe("user doesn't exist");
-		} else {
-			notifyClient.matchNotify(ans.getSeller());
+		if(seller == null) {
+			log.severe("user " + ans.getSeller() + "doesn't exist");
+		}else{
+			buyerCounterparty = seller.getName();
 		}
+		
+		if(buyer != null){
+			buyer.matchNotify(ans.getBuyer(), buyerCounterparty);
+		}
+		
+		if(seller != null){
+			seller.matchNotify(ans.getSeller(), sellerCounterparty);
+		}
+		
 	}
 
 	public synchronized void deleteClientOrders(Client client) {
@@ -70,14 +82,14 @@ public class StockExchange {
 		}
 
 		Order removedOrder = null;
-		Client removedClient = null; 
+		Client removedClient = null;
 		StockGlass glass = null;
 		for (Entry<Order, Client> entry : orderOwners.entrySet()) {
 			removedClient = entry.getValue();
 			removedOrder = entry.getKey();
 			if (client.equals(removedClient)) {
-				orderOwners.remove(removedOrder); 
-				
+				orderOwners.remove(removedOrder);
+
 				glass = glasses.get(removedOrder.getStockType());
 				glass.removeOrder(removedOrder);
 			}

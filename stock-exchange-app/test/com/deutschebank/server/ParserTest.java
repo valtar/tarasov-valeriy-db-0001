@@ -25,21 +25,21 @@ public class ParserTest {
 	
 	@Test
 	public void shouldParseBuyOrder() throws ParseException{
-		String message = "ORDER;1;ASK;GOLD;95;10";
+		String message = "ORDER;1;ASK;GOLD;95.1;10";
 		
 		Parser parser = new Parser();
 		Order order = parser.getOrderFromString(message);
 		
 		assertEquals(OrderType.BUY, order.getOrderType());
 		assertEquals(StockType.GOLD, order.getStockType());
-		assertEquals(95,order.getAmount());
-		assertEquals(10,order.getPrice(),5);
+		assertEquals(10,order.getAmount());
+		assertEquals(95.1,order.getPrice(),5);
 		assertEquals(1,order.getClientId());
 	}
 	
 	@Test
 	public void shouldParseSellOrder() throws ParseException{
-		String message = "ORDER;2;BID;GEMS;100;10.5";
+		String message = "ORDER;2;BID;GEMS;10.5;100";
 		
 		Parser parser = new Parser();
 		Order order = parser.getOrderFromString(message);
