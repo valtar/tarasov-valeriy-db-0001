@@ -48,6 +48,8 @@ public class Parser {
 				return;
 			}
 			controller.matchNotify(ans);
+		default:
+			break;
 		}
 		
 	}

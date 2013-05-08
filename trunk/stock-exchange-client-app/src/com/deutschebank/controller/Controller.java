@@ -55,18 +55,23 @@ public class Controller {
 	}
 
 	private void start() {
-
-		model.connectServer();
-		view.startLoginFrame(new LoginButtonListener());
 		try {
-			synchronized (monitor) {
-				monitor.wait();
+
+			model.connectServer();
+
+			view.startLoginFrame(new LoginButtonListener());
+			try {
+				synchronized (monitor) {
+					monitor.wait();
+				}
+			} catch (InterruptedException e) {
 			}
-		} catch (InterruptedException e) {}
-		System.out.println("here");
+			System.out.println("here");
 
-		view.startMainFrame(new OrderButtonListener(),data);
-
+			view.startMainFrame(new OrderButtonListener(), data);
+		} catch (Exception e) {
+			
+		}
 	}
 
 	public void mainWidowClosed() {
