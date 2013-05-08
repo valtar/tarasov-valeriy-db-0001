@@ -24,7 +24,7 @@ public class Model {
 
 	public void connectServer() {
 		if (connector == null) {
-			connector = new Connector("localhost", 2004,controller);
+			connector = new Connector("localhost", 5555,controller);
 			connector.connect();
 		}
 	}
