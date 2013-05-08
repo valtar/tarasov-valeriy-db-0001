@@ -73,7 +73,7 @@ public class StockExchange {
 		
 	}
 
-	public synchronized void deleteClientOrders(Client client) {
+	public  void deleteClientOrders(Client client) {
 		if (client == null) {
 			return;
 		}
@@ -81,18 +81,22 @@ public class StockExchange {
 			return;
 		}
 
-		Order removedOrder = null;
-		Client removedClient = null;
-		StockGlass glass = null;
-		for (Entry<Order, Client> entry : orderOwners.entrySet()) {
-			removedClient = entry.getValue();
-			removedOrder = entry.getKey();
-			if (client.equals(removedClient)) {
-				orderOwners.remove(removedOrder);
-
-				glass = glasses.get(removedOrder.getStockType());
-				glass.removeOrder(removedOrder);
+		synchronized (orderOwners) {
+			
+			Order removedOrder = null;
+			Client removedClient = null;
+			StockGlass glass = null;
+			for (Entry<Order, Client> entry : orderOwners.entrySet()) {
+				removedClient = entry.getValue();
+				removedOrder = entry.getKey();
+				if (client.equals(removedClient)) {
+					orderOwners.remove(removedOrder);
+	
+					glass = glasses.get(removedOrder.getStockType());
+					glass.removeOrder(removedOrder);
+				}
 			}
+		
 		}
 	}
 

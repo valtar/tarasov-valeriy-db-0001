@@ -78,6 +78,7 @@ public class Acceptor implements Runnable {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+				isLogined = false;
 			}
 		} while (!isLogined);
 	}
