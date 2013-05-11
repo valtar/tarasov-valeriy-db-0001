@@ -23,7 +23,6 @@ import javax.swing.event.ChangeListener;
 import com.deutschebank.controller.Order;
 import com.deutschebank.view.OrderType;
 import com.deutschebank.view.StockType;
-import com.sun.org.apache.xerces.internal.impl.dv.dtd.NMTOKENDatatypeValidator;
 
 public class OrderFrame extends JFrame {
 
