@@ -1,0 +1,53 @@
+Exchange protocol:
+
+<MSG> ::= <SERVER->CLIENT_MSG> | <CLIENT->SERVER_MSG>
+_______________________________________________________________________________
+
+<SERVER->CLIENT_MSG> ::= LOGINSUCCESS | LOGINERROR | <STOCKS> | <ACCEPT> | <REJECT> | <MATCH>
+
+<MATCH> ::= MATCH;<ID>;<COUNTERPARTY>;<PRICE>;<NUMBER_OF_SHARES>;
+<ID> ::= INTEGER*
+<COUNTERPARTY> ::= STRING*
+<PRICE> ::= FLOAT*
+<NUMBER_OF_SHARES> ::= INTEGER*
+-EXAMPLE: "MATCH;1;BILL;14.5;100;"
+
+<STOKS> ::= STOKS;<STOCK>;
+<STOCK> ::= <STOCK>, | STOCKNAME1 | STOCKNAME2 | ...
+EXAPMLE: "STOCKS;GOLD;WOOD;ORE;GEMS;CRYSTALS;SULFUR;MERCURY"
+
+<ACCEPT> ::= ACCEPT;<CLIENT->SERVER_MSG>;
+-EXAMPLE: "ACCEPT;ORDER;1;ASK;GOLD;14.5;100;"
+
+<REJECT> ::= REJECT;<CLIENT->SERVER_MSG>;<EROR>;
+<ERROR> ::= 1 | 0 | <ERROR>,
+-EXAMPLE: 
+ CLIENT>"ORDER;-11;ASK;GLD;-14.5;100;"
+ SERVER>"REJECT;ORDER;-11;ASK;GLD;-14.5;100;1,0,1,0,0,1;"
+		 ORDER  - 1
+		 -11    - 0
+		 ASK    - 1
+		 GLD    - 0
+		 -14.5  - 0
+		 100    - 1
+______________________________________________________________________________
+<CLIENT->SERVER_MSG> ::= <LOGIN> | <ORDER> | <CANCEL> | LOGOUT | GETSTOCKS
+
+<LOGIN> ::= LOGIN;<NAME>;
+<NAME> ::= STRING*
+-EXAMPLE: "LOGIN;BILL;"
+
+<ORDER> ::= ORDER;<ID>;<ORDERTYPE>;<STOCKNAME>;<PRICE>;<NUMBER_OF_SHARES>;
+<ID> ::= INTEGER*
+<ORDERTYPE> ::= ASK | BID
+<STROCKNAME> ::= GOLD |	WOOD | ORE | GEMS | CRYSTALS | SULFUR | MERCURY
+<PRICE> = FLOAT*
+<NUMBER_OF_SHARES> ::= INTEGER*
+-EXAMPLE: "ORDER;1;ASK;GOLD;14.5;100;"
+
+<CANCEL> ::= CANCEL;<ID>;
+<ID> ::= INTEGER*
+-EXAMPLE: "CANCEL;1;"
+_______________________________________________________________________________
+TYPE OF <MSG>: STRING*
+*JAVA TYPES;
