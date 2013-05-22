@@ -33,10 +33,20 @@ public class LoginService implements LoginServiceInterface{
             throw new AccountNotFoundException();
         }
         accStates.putIfAbsent(userName, new AwaitFirstLoginAttempt());
+        
         accStates.get(userName).login(this, acc, password);
     }
 
     public void setState(String userName, LoginServiceState state) {
          accStates.put(userName, state);
     }
+
+	public void changePassword(String userName, String password) {
+		IAccount acc = accRepo.find(userName);
+        if (acc == null) {
+            throw new AccountNotFoundException();
+        }
+        
+        acc.changePassword(password);
+	}
 }
