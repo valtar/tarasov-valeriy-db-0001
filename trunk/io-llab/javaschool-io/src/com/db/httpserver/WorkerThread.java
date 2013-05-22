@@ -1,6 +1,8 @@
 package com.db.httpserver;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -28,7 +30,7 @@ public final class WorkerThread implements Runnable {
         //create pool of worker threads
         ExecutorService executors = Executors.newFixedThreadPool(workers);
         
-        //create server socket
+		//create server socket
         ServerSocket serverSocket = new ServerSocket(port);
         
         //accept connections
@@ -36,6 +38,7 @@ public final class WorkerThread implements Runnable {
         while(true){
         	
         	socket = serverSocket.accept();
+        	socket.setSoTimeout(timeout);
         	
         	Parameter.getLog().println("accept connetion");
         	
@@ -48,7 +51,7 @@ public final class WorkerThread implements Runnable {
     	
     	// Worker.handleRequest(socket)
     	try{
-    		
+
     		AbstractHttpWorker worker = new Worker();
 			worker.handleRequest(socket);
 		} catch (IOException e) {
