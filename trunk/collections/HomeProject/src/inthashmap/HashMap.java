@@ -126,33 +126,5 @@ public class HashMap implements IHashMap {
 			}
 		}
 	}
-	
-	public static void main(String[] args) {
-		IHashMap map = new HashMap();
-		Runtime runtime = Runtime.getRuntime();
-		java.util.HashMap<Integer, Integer> utilMap = new java.util.HashMap<>();
-		
-		long before = 0;
-		long after = 0;
-		int SIZE = 1_000_000;
-		
-		runtime.gc();
-		before = runtime.totalMemory() - runtime.freeMemory();
-		for (int i = 0; i < SIZE; i++) {
-			map.put(i, i);
-		}
-		after = (runtime.totalMemory() - runtime.freeMemory()) - before;
-		System.out.println("my :" + after/SIZE);
-		
-		runtime.gc();
-		before = runtime.totalMemory() - runtime.freeMemory();
-		for (int i = 0; i < SIZE; i++) {
-			utilMap.put(i, i);
-		}
-		after = (runtime.totalMemory() - runtime.freeMemory()) - before;
-		System.out.println("ut :" + after/SIZE);
-		
-		
-	}
 
 }
