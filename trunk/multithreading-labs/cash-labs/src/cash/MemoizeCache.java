@@ -11,9 +11,35 @@ import java.util.concurrent.FutureTask;
 import cash.interfaces.Computable;
 
 public class MemoizeCache<A, V> implements Computable<A, V> {
+	public long timeExpired = 100_000;
 	private final Computable<A, V> computer;
-	private final ConcurrentMap<A, FutureTask<V>> cache = new ConcurrentHashMap<A, FutureTask<V>>();
+	private final ConcurrentMap<A, FutureData<V>> cache = new ConcurrentHashMap<>();
 
+	
+	private class FutureData<V> {
+		FutureTask<V> future;
+		private long timeComputed;
+		long timeExpired;
+
+		public FutureData(FutureTask<V> future, long timeExpired) {
+			super();
+			this.future = future;
+			this.timeExpired = timeExpired;
+		}
+
+		public boolean isExpired() {
+			return System.currentTimeMillis() - getTimeComputed() >= timeExpired;
+		}
+
+		public long getTimeComputed() {
+			return timeComputed;
+		}
+
+		public void setTimeComputed() {
+			this.timeComputed = System.currentTimeMillis();
+		}
+	}
+	
 	public MemoizeCache(Computable<A, V> computer) {
 		super();
 		this.computer = computer;
@@ -22,22 +48,35 @@ public class MemoizeCache<A, V> implements Computable<A, V> {
 	@Override
 	public V compute(final A arg) throws InterruptedException {
 		while (true) {
-			FutureTask<V> future = cache.get(arg);
-			FutureTask<V> tmp = null;
+			FutureData<V> data = cache.get(arg);
 
-			if (future == null) {
-				tmp = new FutureTask<V>(new Callable<V>() {
+			FutureTask<V> future = null;
+
+			if (data != null && data.isExpired()) {
+				cache.remove(arg);
+				continue;
+			}
+
+			if (data != null) {
+				future = data.future;
+			} else {
+
+				future = new FutureTask<V>(new Callable<V>() {
 					@Override
 					public V call() throws Exception {
 						return computer.compute(arg);
 					}
 				});
 
-				future = cache.putIfAbsent(arg, tmp);
-				if (future == null) {
-					future = tmp;
+				data = new FutureData<>(future, timeExpired);
+
+				FutureData<V> tmp = cache.putIfAbsent(arg, data);
+
+				if (tmp == null) {
 					future.run();
+					data.setTimeComputed();
 				}
+
 			}
 
 			try {
@@ -50,14 +89,14 @@ public class MemoizeCache<A, V> implements Computable<A, V> {
 			}
 		}
 	}
+
 }
 
 class ExpensiveComputation implements Computable<String, BigInteger> {
 
 	@Override
 	public BigInteger compute(String arg) throws InterruptedException {
-		// TODO Auto-generated method stub
-		return null;
+		return new BigInteger(arg);
 	}
 
 }
