@@ -1,6 +1,8 @@
 
 package cash;
 
+import cash.interfaces.Cachable;
+
 public class ImmutableCache<K,V> implements Cachable<K, V>{
 	private volatile CashData data;
 	

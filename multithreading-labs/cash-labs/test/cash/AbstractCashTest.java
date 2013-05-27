@@ -12,6 +12,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import cash.interfaces.Cachable;
+
 public abstract class AbstractCashTest {
 
 	private int CYCLE = 100000;

@@ -1,5 +1,7 @@
 package cash;
 
+import cash.interfaces.Cachable;
+
 public class UnsafeCache<K,V> implements Cachable<K, V>{
 	private K key;
 	private V value;
