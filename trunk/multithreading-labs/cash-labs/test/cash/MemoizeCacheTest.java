@@ -31,7 +31,7 @@ public class MemoizeCacheTest {
 	}
 	
 	@Test
-	public void compute_shouldNotComputeSameArgs() throws InterruptedException{
+	public void compute_shouldNotCompute_whenSameArgs() throws InterruptedException{
 		int iterations = 10;
 		for(Integer i = 0; i < iterations; i++ ){
 			memoizeCache.compute(0);
