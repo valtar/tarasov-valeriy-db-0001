@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+import cash.interfaces.Computable;
+
 public class MemoizeCache<A, V> implements Computable<A, V> {
 	private final Computable<A, V> computer;
 	private final ConcurrentMap<A, FutureTask<V>> cache = new ConcurrentHashMap<A, FutureTask<V>>();

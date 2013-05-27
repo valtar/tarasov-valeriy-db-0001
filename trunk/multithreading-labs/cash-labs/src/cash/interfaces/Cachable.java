@@ -1,4 +1,4 @@
-package cash;
+package cash.interfaces;
 
 public interface Cachable<K,V> {
 
