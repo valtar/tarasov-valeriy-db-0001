@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 /*-Xloggc:gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+UseConcMarkSweepGC  -XX:+UseParNewGC*/
+
+/*jmap -histo 18768 | more */
 public class LoadTest {
 	ObjectOutputStream oos;
 	ObjectInputStream ois;
