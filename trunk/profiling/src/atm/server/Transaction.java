@@ -39,7 +39,7 @@ public class Transaction {
                 nonSafeExec();
             }
         } else {
-            if(a1.hashCode() > a2.hashCode()) {
+            if(a1.getAccountId() > a2.getAccountId()) {
                 synchronized (a1)
                 {
                     Thread.yield();
@@ -49,7 +49,7 @@ public class Transaction {
                     }
                 }
 
-            } else if(a1.hashCode() < a2.hashCode()){
+            } else if(a1.getAccountId() < a2.getAccountId()){
                 synchronized (a2)
                 {   Thread.yield();
                     synchronized (a1)
