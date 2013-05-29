@@ -8,7 +8,7 @@ package atm.server;
  * To change this template use File | Settings | File Templates.
  */
 public class Account {
-//	private static int ID = 0;
+	private static int ID = 0;
 	
     
 
@@ -40,7 +40,7 @@ public class Account {
 
 	private double balance;
     private String id;
-//    private int accountId = ID++;
+    private int accountId = ID++;
 
     public Account(String id) {
         this.id = id;
@@ -104,9 +104,9 @@ public class Account {
     }
 
 
-//	public int getAccountId() {
-//		return accountId;
-//	}
+	public int getAccountId() {
+		return accountId;
+	}
 
 
 }
